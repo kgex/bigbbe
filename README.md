@@ -1,3 +1,14 @@
+### Backend for BigBrother
+
+#### Setup
+
+```
+conda create -n bigb python=3.8
+pip install -r requirements.txt
+uvicorn sql_app.main:app --reload
+```
+
+_Create User_
 ```
 
 {
