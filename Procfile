@@ -1,1 +1,1 @@
-web: uvicorn -w 4 sql_app.main:app
+web: uvicorn sql_app.main:app
