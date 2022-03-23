@@ -1,7 +1,9 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from pydoc import describe
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Enum
 from sqlalchemy.orm import relationship
-
+from .enums import TaskEnum
 from .database import Base
+
 
 
 class User(Base):
@@ -15,6 +17,7 @@ class User(Base):
 
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")
+    reports = relationship("Report", back_populates="owner")
 
 
 class Item(Base):
@@ -38,8 +41,20 @@ class Entry(Base):
 
     owner = relationship("User", back_populates="entries")
 
+
 class Report(Base):
-    pass
+
+    __tablename__ = 'reports'
+    
+    id = Column(Integer, primary_key=True, index=True)
+    task_type = Column(Enum(TaskEnum), index=True)
+    title = Column(String, index=True)
+    description = Column(String, index = True)
+    start_time = Column(DateTime, index = True)
+    stop_time = Column(DateTime, index=True)
+    owner_id =  Column(Integer, ForeignKey("users.id"))
+
+    owner = relationship("User", back_populates="reports")
 
 # task type(learnin, project, others)
 # title

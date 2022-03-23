@@ -42,3 +42,10 @@ def create_user_entry(db: Session, entry: schemas.Entry, user_id: int):
     db.commit()
     db.refresh(db_entry)
     return db_entry
+
+def create_user_report(db: Session, report: schemas.Report, user_id: int):
+    db_report = models.Report(**report.dict(), owner_id=user_id)
+    db.add(db_report)
+    db.commit()
+    db.refresh(db_report)
+    return db_report
