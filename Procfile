@@ -1,1 +1,1 @@
-web: uvicorn sql_app.main:app
+web: uvicorn sql_app.main:app -p $PORT
