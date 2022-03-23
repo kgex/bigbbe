@@ -1,6 +1,23 @@
+from datetime import datetime
+from decimal import Overflow
 from typing import List, Optional
 
 from pydantic import BaseModel
+
+class EntryBase(BaseModel):
+    time: datetime
+    location: str
+    entry_type: str
+
+class EntryCreate(EntryBase):
+    pass
+
+class Entry(EntryBase):
+    id: int
+    owner_id: int
+
+    class Config:
+        orm_mode = True
 
 
 class ItemBase(BaseModel):

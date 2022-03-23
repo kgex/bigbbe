@@ -82,3 +82,10 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 @app.get("/users/me/", response_model=User)
 async def read_users_me(current_user: User = Depends(auth.get_current_active_user)):
     return current_user
+
+
+@app.post("/users/{user_id}/entry/", response_model=schemas.Entry)
+def create_entry_for_user(
+    user_id: int, entry: schemas.EntryCreate, db: Session = Depends(get_db)
+):
+    return crud.create_user_entry(db=db, entry=entry, user_id=user_id)
