@@ -37,3 +37,13 @@ class Entry(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="entries")
+
+class Report(Base):
+    pass
+
+# task type(learnin, project, others)
+# title
+# description
+# starttime
+# stop time
+# owner_id
