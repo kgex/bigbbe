@@ -107,3 +107,8 @@ def create_entry2_for_user(user_id: int, entry: schemas.EntryCreate, db: Session
 @app.post("/users/{user_id}/report", response_model=schemas.Report)
 def create_report_for_user(user_id: int, report: schemas.Report, db: Session = Depends(get_db)):
     return crud.create_user_report(db=db, report=report, user_id=user_id)
+
+@app.get("/users/{user_id}/reports", response_model=List[schemas.Report])
+def get_user_reports(user_id:int, db: Session = Depends(get_db)):
+    users = crud.get_user_report(db=db, user_id=user_id)
+    return users
