@@ -52,3 +52,9 @@ def create_user_report(db: Session, report: schemas.Report, user_id: int):
 
 def get_user_report(db: Session, user_id: int):
     return db.query(models.Report).filter(models.Report.owner_id == user_id).all()
+
+def update_user_report(db: Session, report: schemas.Report, user_id: int):
+    db_report = models.Report(**report.dict(), owner_id=user_id)
+    db.commit()
+    db.refresh(db_report)
+    return db_report
