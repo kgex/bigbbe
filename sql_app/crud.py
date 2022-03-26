@@ -53,9 +53,24 @@ def create_user_report(db: Session, report: schemas.Report, user_id: int):
 def get_user_report(db: Session, user_id: int):
     return db.query(models.Report).filter(models.Report.owner_id == user_id).all()
 
+def get_user_report_by_id(db: Session, report_id: int):
+    return db.query(models.Report).filter(models.Report.id == report_id).first()
 
 def delete_user(db: Session, user_id: int):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     db.delete(db_user)
     db.commit()
     return db_user
+
+def change_password(db: Session, user_id: int, new_password: str):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    db_user.hashed_password = get_password_hash(new_password)
+    db.commit()
+    return db_user
+
+def verify_email(db: Session, user_id: int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    db_user.is_active = True
+    db.commit()
+    return db_user
+
