@@ -112,3 +112,11 @@ def create_report_for_user(user_id: int, report: schemas.Report, db: Session = D
 def get_user_reports(user_id:int, db: Session = Depends(get_db)):
     users = crud.get_user_report(db=db, user_id=user_id)
     return users
+
+@app.post("/resetpass", response_model=schemas.User)
+def reset_password(user_id: int, new_password: str, db: Session = Depends(get_db)):
+    return crud.change_password(db=db, user_id=user_id, new_password=new_password)
+
+@app.get("/users/{user_id}/reports/{report_id}", response_model=schemas.Report)
+def get_user_report(report_id: int, db: Session = Depends(get_db)):
+    return crud.get_user_report_by_id(db=db, report_id=report_id)

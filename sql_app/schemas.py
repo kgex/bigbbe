@@ -62,6 +62,7 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+
 class Report(BaseModel):
     task_type: TaskEnum
     title: str
@@ -70,3 +71,8 @@ class Report(BaseModel):
     stop_time: datetime
     class Config:
         orm_mode = True
+
+class ResetPasswordBase(BaseModel):
+    email: str
+    password: str
+    new_password: str
