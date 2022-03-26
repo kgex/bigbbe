@@ -1,7 +1,9 @@
 from datetime import datetime
 from decimal import Overflow
 from typing import List, Optional
-
+import enum
+from xmlrpc.client import DateTime
+from .enums import TaskEnum    
 from pydantic import BaseModel
 
 class EntryBase(BaseModel):
@@ -59,3 +61,18 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class Report(BaseModel):
+    task_type: TaskEnum
+    title: str
+    description: str
+    start_time: datetime
+    stop_time: datetime
+    class Config:
+        orm_mode = True
+
+class ResetPasswordBase(BaseModel):
+    email: str
+    password: str
+    new_password: str
