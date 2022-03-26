@@ -49,3 +49,13 @@ def create_user_report(db: Session, report: schemas.Report, user_id: int):
     db.commit()
     db.refresh(db_report)
     return db_report
+
+def get_user_report(db: Session, user_id: int):
+    return db.query(models.Report).filter(models.Report.owner_id == user_id).all()
+
+
+def delete_user(db: Session, user_id: int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    db.delete(db_user)
+    db.commit()
+    return db_user
