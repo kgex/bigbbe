@@ -14,7 +14,9 @@ class User(Base):
     full_name = Column(String)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-
+    is_verified = Column(Boolean, default=False)
+    verified_time = Column(DateTime)
+    
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")
     reports = relationship("Report", back_populates="owner")

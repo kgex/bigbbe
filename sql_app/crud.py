@@ -73,3 +73,4 @@ def verify_email(db: Session, user_id: int):
     db_user.is_active = True
     db.commit()
     return db_user
+

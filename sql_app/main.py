@@ -120,3 +120,4 @@ def reset_password(user_id: int, new_password: str, db: Session = Depends(get_db
 @app.get("/users/{user_id}/reports/{report_id}", response_model=schemas.Report)
 def get_user_report(report_id: int, db: Session = Depends(get_db)):
     return crud.get_user_report_by_id(db=db, report_id=report_id)
+
