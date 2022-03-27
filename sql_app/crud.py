@@ -97,14 +97,14 @@ def delete_client(db:Session, client_id: int):
     return db_client
 
 def create_project(db:Session, project:schemas.ProjectBase, client_id: int):
-    db_project = models.Project(**project.dict(),client_id=client_id)
+    db_project = models.Project(**project.dict(),owner_id=client_id)
     db.add(db_project)
     db.commit()
     db.refresh(db_project)
     return db_project
 
 def get_projects(db:Session, client_id: int):
-    return db.query(models.Project).filter(models.Project.client_id == client_id).all()
+    return db.query(models.Project).filter(models.Project.owner_id == client_id).all()
 
 def get_project_by_id(db:Session, project_id: int):
     return db.query(models.Project).filter(models.Project.id == project_id).first()
