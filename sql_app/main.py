@@ -115,10 +115,42 @@ def get_user_reports(user_id:int, db: Session = Depends(get_db)):
     return users
 
 @app.post("/resetpass", response_model=schemas.User)
-def reset_password(user_id: int, new_password: str, db: Session = Depends(get_db)):
-    return crud.change_password(db=db, user_id=user_id, new_password=new_password)
+def reset_password(user_id: int, new_password: str, old_password: str, db: Session = Depends(get_db)):
+    return crud.change_password(db=db, user_id=user_id, new_password=new_password, old_password=old_password)
 
 @app.get("/users/{user_id}/reports/{report_id}", response_model=schemas.Report)
 def get_user_report(report_id: int, db: Session = Depends(get_db)):
     return crud.get_user_report_by_id(db=db, report_id=report_id)
+
+@app.post("/client", response_model=schemas.ClientResponse)
+def create_client(user_id: int, client: schemas.ClientBase, db: Session = Depends(get_db)):
+    return crud.create_client(db=db, client=client, user_id=user_id)
+
+@app.get("/clients", response_model=List[schemas.ClientResponse])
+def get_clients(db: Session = Depends(get_db)):
+    return crud.get_clients(db=db)
+
+@app.get("/clients/{client_id}", response_model=schemas.ClientResponse)
+def get_client(client_id: int, db: Session = Depends(get_db)):
+    return crud.get_client_by_id(db=db, client_id=client_id)
+
+@app.delete("/clients/{client_id}", response_model=schemas.ClientResponse)
+def delete_client(client_id: int, db: Session = Depends(get_db)):
+    return crud.delete_client(db=db, client_id=client_id)
+
+@app.post("/clients/{client_id}/project", response_model=schemas.ProjectResponse)
+def create_project(client_id: int, project: schemas.ProjectBase, db: Session = Depends(get_db)):
+    return crud.create_project(db=db, project=project, client_id=client_id)
+
+@app.get("/clients/{client_id}/projects", response_model=List[schemas.ProjectResponse])
+def get_projects(client_id: int, db: Session = Depends(get_db)):
+    return crud.get_projects(db=db, client_id=client_id)
+
+@app.get("/clients/{client_id}/projects/{project_id}", response_model=schemas.ProjectResponse)
+def get_project(project_id: int, db: Session = Depends(get_db)):
+    return crud.get_project_by_id(db=db, project_id=project_id)
+
+@app.delete("/clients/{client_id}/projects/{project_id}", response_model=schemas.ProjectResponse)
+def delete_project(project_id: int, db: Session = Depends(get_db)):
+    return crud.delete_project(db=db, project_id=project_id)
 
