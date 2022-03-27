@@ -76,3 +76,29 @@ class ResetPasswordBase(BaseModel):
     email: str
     password: str
     new_password: str
+
+class ClientBase(BaseModel):
+    name: str
+    description: str
+    poc_name: str
+    poc_phone: str
+    poc_email: str
+    class Config:
+        orm_mode = True
+
+class ClientResponse(ClientBase):
+    id: int
+    owner_id: int
+
+class ProjectBase(BaseModel):
+    name: str
+    description: str
+    start_time: datetime
+    stop_time: datetime
+    project_status: str
+    class Config:
+        orm_mode = True 
+
+class ProjectResponse(ProjectBase):
+    id: int
+    owner_id: int

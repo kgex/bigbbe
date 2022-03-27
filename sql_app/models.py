@@ -64,3 +64,25 @@ class Report(Base):
 # starttime
 # stop time
 # owner_id
+
+class Client(Base):
+    __tablename__ = 'clients'
+
+    id = Column(Integer, primary_key=True)
+    owner_id = Column(Integer, ForeignKey('users.id'))
+    name = Column(String, index=True)
+    description = Column(String, index=True)
+    poc_name = Column(String, index=True)
+    poc_phone = Column(String, index=True)
+    poc_email = Column(String, index=True)
+
+class Project(Base):
+    __tablename__ = 'projects'
+
+    id = Column(Integer, primary_key=True)
+    owner_id = Column(Integer, ForeignKey('clients.id'))
+    name = Column(String, index=True)
+    description = Column(String, index=True)
+    start_time = Column(DateTime, index=True)
+    stop_time = Column(DateTime, index=True)
+    project_status = Column(String, index=True)
