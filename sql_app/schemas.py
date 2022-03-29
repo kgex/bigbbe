@@ -49,6 +49,7 @@ class UserBase(BaseModel):
     email: str
     full_name: str
     is_active: Optional[bool] = None
+    role: str
 
 class UserCreate(UserBase):
     password: str

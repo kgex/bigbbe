@@ -14,7 +14,8 @@ class User(Base):
     full_name = Column(String)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-    
+    role = Column(String)
+
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")
     reports = relationship("Report", back_populates="owner")

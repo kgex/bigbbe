@@ -18,7 +18,8 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = get_password_hash(user.password)
-    db_user = models.User(email=user.email, full_name=user.full_name, hashed_password=hashed_password)
+    print("#############", user.role)
+    db_user = models.User(email=user.email, full_name=user.full_name, hashed_password=hashed_password, role=user.role)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -114,3 +115,6 @@ def delete_project(db:Session, project_id: int):
     db.delete(db_project)
     db.commit()
     return db_project
+
+def get_all_projects(db:Session):
+    return db.query(models.Project).all()
