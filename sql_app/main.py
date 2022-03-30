@@ -161,3 +161,18 @@ def get_project(project_id: int, db: Session = Depends(get_db)):
 def delete_project(project_id: int, db: Session = Depends(get_db)):
     return crud.delete_project(db=db, project_id=project_id)
 
+@app.post("/users/{user_id}/grievance", response_model=schemas.ProjectResponse)
+def create_grievance(user_id: int, grievance: schemas.GrievanceBase, db: Session = Depends(get_db)):
+    return crud.create_grievance(db=db, grievance=grievance, user_id=user_id)
+
+@app.get("/users/{user_id}/getreports", response_model=List[schemas.Report])
+def get_user_reports(user_id: int, db: Session = Depends(get_db)):
+    user_reports = crud.get_user_reports(db=db, user_id=user_id)
+    if not user_reports:
+        raise HTTPException(
+            status_code=status.HTTP_403_UNAUTHORIZED,
+            detail="You are not authorized to access this resource",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        return user_reports
+    return user_reports

@@ -1,7 +1,7 @@
 from pydoc import describe
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Enum
 from sqlalchemy.orm import relationship
-from .enums import TaskEnum
+from .enums import TaskEnum, GrievanceEnum
 from .database import Base
 
 
@@ -14,7 +14,7 @@ class User(Base):
     full_name = Column(String)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-    
+    role = Column(String)
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")
     reports = relationship("Report", back_populates="owner")
@@ -84,3 +84,12 @@ class Project(Base):
     start_time = Column(DateTime, index=True)
     stop_time = Column(DateTime, index=True)
     project_status = Column(String, index=True)
+
+
+def Grievance(Base):
+    id = Column(Integer, primary_key=True)
+    owner_id = Column(Integer, ForeignKey('users.id'))
+    name = Column(String, index=True)
+    description = Column(String, index=True)
+    image_url = Column(String, index=True)
+    grievance_type = Column(Enum(GrievanceEnum), index=True)
