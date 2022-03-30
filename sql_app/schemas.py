@@ -3,7 +3,7 @@ from decimal import Overflow
 from typing import List, Optional
 import enum
 from xmlrpc.client import DateTime
-from .enums import TaskEnum    
+from .enums import TaskEnum, GrievanceEnum    
 from pydantic import BaseModel
 
 class EntryBase(BaseModel):
@@ -103,3 +103,13 @@ class ProjectBase(BaseModel):
 class ProjectResponse(ProjectBase):
     id: int
     owner_id: int
+
+class GrievanceBase(BaseModel):
+    id: int
+    owner_id: int
+    grievance_type: GrievanceEnum
+    name: str
+    description: str
+    image_url: str
+    class Config:
+        orm_mode = True

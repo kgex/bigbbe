@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional, List
 
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -9,11 +9,13 @@ from sqlalchemy.orm import Session
 from . import crud, models, schemas, auth
 from .database import SessionLocal, engine
 from .schemas import User, Token
+from .routers import nivu
 
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+app.include_router(nivu.router)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
@@ -40,6 +42,9 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+
 
 
 @app.post("/users/", response_model=schemas.User)
@@ -161,6 +166,21 @@ def get_project(project_id: int, db: Session = Depends(get_db)):
 def delete_project(project_id: int, db: Session = Depends(get_db)):
     return crud.delete_project(db=db, project_id=project_id)
 
+@app.post("/users/{user_id}/grievance", response_model=schemas.ProjectResponse)
+def create_grievance(user_id: int, grievance: schemas.GrievanceBase, db: Session = Depends(get_db)):
+    return crud.create_grievance(db=db, grievance=grievance, user_id=user_id)
+
+@app.get("/users/{user_id}/getreports", response_model=List[schemas.Report])
+def get_user_reports(user_id: int, db: Session = Depends(get_db)):
+    user_reports = crud.get_user_reports(db=db, user_id=user_id)
+    if not user_reports:
+        raise HTTPException(
+            status_code=status.HTTP_403_UNAUTHORIZED,
+            detail="You are not authorized to access this resource",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        return user_reports
+    return user_reports
 @app.get("/projects", response_model=List[schemas.ProjectResponse])
 def get_all_projects( db: Session = Depends(get_db)):
     return crud.get_projects(db=db)
