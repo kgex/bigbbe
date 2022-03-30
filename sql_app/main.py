@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional, List
 
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -9,11 +9,13 @@ from sqlalchemy.orm import Session
 from . import crud, models, schemas, auth
 from .database import SessionLocal, engine
 from .schemas import User, Token
+from .routers import nivu
 
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+app.include_router(nivu.router)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
@@ -40,6 +42,9 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+
 
 
 @app.post("/users/", response_model=schemas.User)
