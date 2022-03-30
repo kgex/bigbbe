@@ -90,7 +90,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = auth.create_access_token(
         # data={"sub": user.email}, expires_delta=access_token_expires
-        data={"email": user.email, "user_id": user.id, "full_name": user.full_name}, expires_delta=access_token_expires
+        data={"email": user.email, "user_id": user.id, "full_name": user.full_name, "role": user.role}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
@@ -176,3 +176,6 @@ def get_user_reports(user_id: int, db: Session = Depends(get_db)):
         )
         return user_reports
     return user_reports
+@app.get("/projects", response_model=List[schemas.ProjectResponse])
+def get_all_projects( db: Session = Depends(get_db)):
+    return crud.get_projects(db=db)

@@ -115,6 +115,7 @@ def delete_project(db:Session, project_id: int):
     db.commit()
     return db_project
 
+<<<<<<< HEAD
 def create_grievance(db:Session, user_id: int, grievance: schemas.GrievanceBase):
     db_grievance = models.Grievance(owner_id=user_id)
     db.add(db_grievance)
@@ -127,3 +128,7 @@ def get_user_reports(db:Session, user_id: int):
     if(not db_user.role == 'admin'):
         return False
     return db.query(models.Report).filter(models.Report.owner_id == user_id).all()
+=======
+def get_all_projects(db:Session):
+    return db.query(models.Project).all()
+>>>>>>> main
