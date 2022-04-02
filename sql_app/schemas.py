@@ -113,3 +113,11 @@ class GrievanceBase(BaseModel):
     image_url: str
     class Config:
         orm_mode = True
+
+class VerifyToken(BaseModel):
+    id: int
+    owner_id: int
+    token: str
+    expires: datetime
+    class Config:
+        orm_mode = True

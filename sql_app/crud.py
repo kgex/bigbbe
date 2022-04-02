@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+import datetime 
 from . import models, schemas
 from .auth import get_password_hash             
 
@@ -18,7 +18,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = get_password_hash(user.password)
-    db_user = models.User(email=user.email, full_name=user.full_name, hashed_password=hashed_password, role = user.role)
+    db_user = models.User(email=user.email, full_name=user.full_name, hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -127,5 +127,23 @@ def get_user_reports(db:Session, user_id: int):
     if(not db_user.role == 'admin'):
         return False
     return db.query(models.Report).filter(models.Report.owner_id == user_id).all()
-def get_all_projects(db:Session):
-    return db.query(models.Project).all()
+
+
+def get_user_reports_by_date(db:Session, user_id: int, date: str):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if(not db_user.role == 'admin'):
+        return False
+    return db.query(models.Report).filter(models.Report.owner_id == user_id, models.Report.start_date==date).all()
+    
+def create_verify_token(db: Session, token: schemas.VerifyToken):
+    db_token = models.VerifyToken(**token.dict())
+    db.add(db_token)
+    db.commit()
+    db.refresh(db_token)
+    return db_token
+
+def verify_email_by_id(db:Session, user_id: int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    db_user.is_active = True
+    db.commit()
+    return db_user

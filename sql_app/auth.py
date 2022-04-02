@@ -9,7 +9,7 @@ from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine
-
+import math, random
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
@@ -76,3 +76,7 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
     if current_user.is_active == False:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
+
+
+def generate_otp(length=4):
+    return ''.join(random.choice('0123456789') for i in range(length))

@@ -13,8 +13,8 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     full_name = Column(String)
     hashed_password = Column(String)
-    is_active = Column(Boolean, default=True)
-    role = Column(String)
+    is_active = Column(Boolean, default=False)
+    role = Column(String, default='student')
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")
     reports = relationship("Report", back_populates="owner")
@@ -86,10 +86,21 @@ class Project(Base):
     project_status = Column(String, index=True)
 
 
-def Grievance(Base):
+class Grievance(Base):
+    __tablename__ = 'grievances'
+
     id = Column(Integer, primary_key=True)
     owner_id = Column(Integer, ForeignKey('users.id'))
     name = Column(String, index=True)
     description = Column(String, index=True)
     image_url = Column(String, index=True)
     grievance_type = Column(Enum(GrievanceEnum), index=True)
+
+
+class Token(Base):
+    __tablename__ = 'tokens'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    token = Column(String, index=True)
+    expires = Column(DateTime, index=True)
