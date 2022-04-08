@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas, auth
+from . import crud, models, schemas, auth, email
 from .database import SessionLocal, engine
 from .schemas import User, Token
 from .routers import nivu
@@ -44,17 +44,32 @@ def get_db():
         db.close()
 
 
-
-
-
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_user(db=db, user=user)
+    db_user = crud.create_user(db=db, user=user)
+    db_user.otp = auth.generate_otp(4)
+    crud.save_user_details(db=db, user=db_user)
+    msg = 'Your OTP is: <h2>' + str(db_user.otp) + '</h2>'
+    email_client = email.Email()
+    email_client.send(recipient=db_user.email, subject="Verify your email", html_content=msg)
 
+    return db_user
 
+@app.post("/verify", response_model=schemas.User)
+def verify_user(email: str, otp: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=email)
+    if not db_user:
+        raise HTTPException(status_code=400, detail="Email not registered")
+    if db_user.otp != otp:
+        raise HTTPException(status_code=400, detail="OTP not valid")
+    db_user.otp = None
+    db_user.is_active = True
+    crud.save_user_details(db=db, user=db_user)
+    return db_user
+    
 @app.get("/users/", response_model=List[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
@@ -184,3 +199,32 @@ def get_user_reports(user_id: int, db: Session = Depends(get_db)):
 @app.get("/projects", response_model=List[schemas.ProjectResponse])
 def get_all_projects( db: Session = Depends(get_db)):
     return crud.get_projects(db=db)
+
+
+@app.post("/forgotpass")
+def forgot_password(user_email: str, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user_email)
+    db_user.otp = auth.generate_otp()
+    crud.save_user_details(db, db_user)
+    msg = '<h2>Your otp is <h1>' + str(db_user.otp) + '</h1></h2>'
+    email_client = email.Email()
+    try:
+        email_client.send(recipient=db_user.email, subject="Password Reset OTP", html_content=msg)
+    except Exception as e:
+        return {"status": "failure", "message": str(e)}
+    return {"status": "success", "message": "OTP sent to your email"}
+
+@app.post("/enterotp")
+def enter_otp(user_email: str, otp: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user_email)
+    if db_user.otp == otp:
+        return {"status": "success", "message": "OTP verified"}
+    else:
+        return {"status": "failure", "message": "OTP not verified"}
+
+@app.post("/resetpassword")
+def reset_password(user_email: str, new_password: str, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user_email)
+    db_user.password = new_password
+    crud.save_user_details(db, db_user)
+    return db_user
