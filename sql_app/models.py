@@ -14,6 +14,7 @@ class User(Base):
     full_name = Column(String)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=False)
+    otp = Column(Integer, unique=True)
     role = Column(String, default='student')
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")

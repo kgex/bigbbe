@@ -70,7 +70,13 @@ def change_password(db: Session, user_id: int, new_password: str, old_password: 
         db.commit()
         db.refresh(db_user)
     return db_user
-
+    
+def save_user_details(db: Session, user: models.User):
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+    
 def verify_email(db: Session, user_id: int):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     db_user.is_active = True
@@ -145,5 +151,6 @@ def create_verify_token(db: Session, token: schemas.VerifyToken):
 def verify_email_by_id(db:Session, user_id: int):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     db_user.is_active = True
+    db_user.otp = None
     db.commit()
     return db_user

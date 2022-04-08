@@ -78,5 +78,8 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
     return current_user
 
 
-def generate_otp(length=4):
+def generate_otp(length=6):
     return ''.join(random.choice('0123456789') for i in range(length))
+
+def generate_random_token(length=32):
+    return ''.join(random.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(length))
