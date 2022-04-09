@@ -9,6 +9,12 @@ pip install -r requirements.txt
 uvicorn sql_app.main:app --reload
 ```
 
+## Heroku Deploy Command
+```
+heroku git:remote -a bigbbe
+git push heroku main
+```
+
 _Create User_
 ```
 

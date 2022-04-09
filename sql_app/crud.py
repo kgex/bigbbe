@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+import datetime 
 from . import models, schemas
 from .auth import get_password_hash             
 
@@ -70,7 +70,13 @@ def change_password(db: Session, user_id: int, new_password: str, old_password: 
         db.commit()
         db.refresh(db_user)
     return db_user
-
+    
+def save_user_details(db: Session, user: models.User):
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+    
 def verify_email(db: Session, user_id: int):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     db_user.is_active = True
@@ -114,3 +120,37 @@ def delete_project(db:Session, project_id: int):
     db.delete(db_project)
     db.commit()
     return db_project
+
+def create_grievance(db:Session, user_id: int, grievance: schemas.GrievanceBase):
+    db_grievance = models.Grievance(owner_id=user_id)
+    db.add(db_grievance)
+    db.commit()
+    db.refresh(db_grievance)
+    return db_grievance
+
+def get_user_reports(db:Session, user_id: int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if(not db_user.role == 'admin'):
+        return False
+    return db.query(models.Report).filter(models.Report.owner_id == user_id).all()
+
+
+def get_user_reports_by_date(db:Session, user_id: int, date: str):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if(not db_user.role == 'admin'):
+        return False
+    return db.query(models.Report).filter(models.Report.owner_id == user_id, models.Report.start_date==date).all()
+    
+def create_verify_token(db: Session, token: schemas.VerifyToken):
+    db_token = models.VerifyToken(**token.dict())
+    db.add(db_token)
+    db.commit()
+    db.refresh(db_token)
+    return db_token
+
+def verify_email_by_id(db:Session, user_id: int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    db_user.is_active = True
+    db_user.otp = None
+    db.commit()
+    return db_user
