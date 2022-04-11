@@ -70,7 +70,7 @@ def change_password(db: Session, user_id: int, new_password: str, old_password: 
         db.commit()
         db.refresh(db_user)
     return db_user
-    
+
 def save_user_details(db: Session, user: models.User):
     db.add(user)
     db.commit()
@@ -128,11 +128,8 @@ def create_grievance(db:Session, user_id: int, grievance: schemas.GrievanceBase)
     db.refresh(db_grievance)
     return db_grievance
 
-def get_user_reports(db:Session, user_id: int):
-    db_user = db.query(models.User).filter(models.User.id == user_id).first()
-    if(not db_user.role == 'admin'):
-        return False
-    return db.query(models.Report).filter(models.Report.owner_id == user_id).all()
+def get_user_reports(db:Session):
+    return db.query(models.Report).all()
 
 
 def get_user_reports_by_date(db:Session, user_id: int, date: str):
