@@ -19,6 +19,6 @@ class Email:
             response = sg.send(message)
             print(response.status_code)
             print(response.body)
-            print(response.headers)
+            # print(response.headers)
         except Exception as e:
             print(e)

@@ -126,18 +126,6 @@ async def read_users_me(current_user: User = Depends(auth.get_current_active_use
     return current_user
 
 
-@app.post("/users/{user_id}/entry/", response_model=schemas.Entry)
-def create_entry_for_user(
-    user_id: int, entry: schemas.EntryCreate, db: Session = Depends(get_db)
-):
-    return crud.create_user_entry(db=db, entry=entry, user_id=user_id)
-
-
-@app.post("/users/{user_id}/entry2/", response_model=schemas.Entry)
-def create_entry2_for_user(user_id: int, entry: schemas.EntryCreate, db: Session = Depends(get_db)):
-    return crud.create_user_entry(db=db, entry=entry, user_id=user_id)
-
-
 @app.post("/users/{user_id}/report", response_model=schemas.Report)
 def create_report_for_user(user_id: int, report: schemas.Report, db: Session = Depends(get_db)):
     return crud.create_user_report(db=db, report=report, user_id=user_id)
@@ -234,3 +222,15 @@ def reset_password(user_email: str, new_password: str, db: Session = Depends(get
     db_user.password = new_password
     crud.save_user_details(db, db_user)
     return db_user
+
+# @app.get("/users/{user_id}/getgrievances", response_model=List[schemas.Grievance])
+# def get_user_grievances(user_id: int, db: Session = Depends(get_db)):
+#     user_grievances = crud.get_user_grievances(db=db, user_id=user_id)
+#     if not user_grievances:
+#         raise HTTPException(
+#             status_code=status.HTTP_403_UNAUTHORIZED,
+#             detail="You are not authorized to access this resource",
+#             headers={"WWW-Authenticate": "Bearer"},
+#         )
+#         return user_grievances
+#     return user_grievances
