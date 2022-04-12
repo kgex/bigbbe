@@ -20,6 +20,12 @@ app.include_router(nivu.router)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+origins = [
+    "http://kgx.nivu.me",
+    "https://kgx.nivu.me",
+    "http://localhost",
+    "http://localhost:3000",
+]
 
 origins = [
     "http://kgx.nivu.me",
