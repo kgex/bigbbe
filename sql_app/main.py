@@ -27,13 +27,6 @@ origins = [
     "http://localhost:3000",
 ]
 
-origins = [
-    "http://kgx.nivu.me",
-    "https://kgx.nivu.me",
-    "http://localhost",
-    "http://localhost:3000",
-]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
