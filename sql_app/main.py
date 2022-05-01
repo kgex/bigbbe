@@ -36,7 +36,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -65,11 +65,11 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 @app.post("/verify", response_model=schemas.User)
-def verify_user(email: str, otp: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db, email=email)
+def verify_user(user:schemas.UserVerify, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user.email)
     if not db_user:
         raise HTTPException(status_code=400, detail="Email not registered")
-    if db_user.otp != otp:
+    if db_user.otp != user.otp:
         raise HTTPException(status_code=400, detail="OTP not valid")
     db_user.otp = None
     db_user.is_active = True

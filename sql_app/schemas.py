@@ -52,6 +52,9 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
 
+class UserVerify(BaseModel):
+    email: str
+    otp: int
 
 class User(UserBase):
     id: int
