@@ -48,8 +48,6 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    if user.email.split("@")[1] != "kgkite.ac.in":
-        raise HTTPException(status_code=400, detail="Email must be from kgkite.ac.in")
     db_user = crud.create_user(db=db, user=user)
     db_user.otp = auth.generate_otp(4)
     crud.save_user_details(db=db, user=db_user)
@@ -63,11 +61,11 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 @app.post("/verify", response_model=schemas.User)
-def verify_user(user: schemas.UserVerify, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db, email=user.email)
+def verify_user(email: str, otp: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=email)
     if not db_user:
         raise HTTPException(status_code=400, detail="Email not registered")
-    if db_user.otp != user.otp:
+    if db_user.otp != otp:
         raise HTTPException(status_code=400, detail="OTP not valid")
     db_user.otp = None
     db_user.is_active = True
@@ -276,36 +274,3 @@ def reset_password(user_email: str, new_password: str, db: Session = Depends(get
 #         )
 #         return user_grievances
 #     return user_grievances
-
-
-@app.post("/attendance_in", response_model=schemas.AttendanceEntry)
-def attendance_in(
-    attendance_entry: schemas.AttendanceEntryCreate, db: Session = Depends(get_db)
-):
-    return crud.attendance_in(db=db, entry=attendance_entry)
-
-
-@app.patch("/attendance_out", response_model=schemas.AttendanceEntry)
-def attendance_out(
-    attendance_entry: schemas.AttendanceOut, db: Session = Depends(get_db)
-):
-    return crud.attendance_out(db=db, entry=attendance_entry)
-
-
-@app.get("attendance", response_model=List[schemas.AttendanceEntry])
-def get_attendance(user_id: int, db: Session = Depends(get_db)):
-    attendance = crud.get_attendance(db=db, user_id=user_id)
-    if not attendance:
-        raise HTTPException(
-            status_code=status.HTTP_403_UNAUTHORIZED,
-            detail="You are not authorized to access this resource",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    return attendance
-
-
-@app.patch("/updaterfid", response_model=schemas.User)
-def update_rfid(details: schemas.UpdateRFID, db: Session = Depends(get_db)):
-    return crud.update_user_rfid_key(
-        db=db, user_email=details.email, rfid_key=details.rfid_key
-    )
