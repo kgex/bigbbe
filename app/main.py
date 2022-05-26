@@ -280,9 +280,12 @@ def reset_password(user_email: str, new_password: str, db: Session = Depends(get
 
 @app.post("/attendance_in", response_model=schemas.AttendanceEntry)
 def attendance_in(
-    attendance_entry: schemas.AttendanceEntryCreate, db: Session = Depends(get_db)
+    attendance_entry: schemas.AttendanceIn, db: Session = Depends(get_db)
 ):
-    return crud.attendance_in(db=db, entry=attendance_entry)
+    db_user = crud.get_user_id_by_rfid_key(db, rfid_key=attendance_entry.rfid_key)
+    if not db_user:
+        raise HTTPException(status_code=400, detail="User with RFID key not found")
+    return crud.attendance_in(db=db, entry=attendance_entry, user_id=db_user.id)
 
 
 @app.patch("/attendance_out", response_model=schemas.AttendanceEntry)

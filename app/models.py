@@ -118,7 +118,7 @@ class AttendanceEntries(Base):
     __tablename__ = "attendance_entries"
 
     id = Column(Integer, primary_key=True)
-    rfid_key = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"))
     in_time = Column(DateTime, index=True)
     out_time = Column(DateTime, index=True, nullable=True)
     updated_time = Column(DateTime, index=True)

@@ -144,7 +144,7 @@ class VerifyToken(BaseModel):
         orm_mode = True
 
 
-class AttendanceEntryCreate(BaseModel):
+class AttendanceIn(BaseModel):
     in_time: datetime
     rfid_key: str
 

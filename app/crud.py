@@ -182,16 +182,15 @@ def verify_email_by_id(db: Session, user_id: int):
 
 
 def get_user_id_by_rfid_key(db: Session, rfid_key: str):
-    return db.query(models.User).filter(models.User.rfid_key == rfid_key).first().id
+    return db.query(models.User).filter(models.User.rfid_key == rfid_key).first()
 
 
-def attendance_in(db: Session, entry: schemas.AttendanceEntryCreate):
+def attendance_in(db: Session, entry: schemas.AttendanceIn, user_id: int):
     db_entry = models.AttendanceEntries(
-        rfid_key=entry.rfid_key,
+        user_id=user_id,
         in_time=entry.in_time,
         updated_time=datetime.datetime.now(),
     )
-    db_entry.user_id = 2
     db.add(db_entry)
     db.commit()
     db.refresh(db_entry)
