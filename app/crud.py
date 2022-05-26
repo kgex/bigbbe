@@ -179,3 +179,44 @@ def verify_email_by_id(db: Session, user_id: int):
     db_user.otp = None
     db.commit()
     return db_user
+
+
+def get_user_id_by_rfid_key(db: Session, rfid_key: str):
+    return db.query(models.User).filter(models.User.rfid_key == rfid_key).first().id
+
+
+def attendance_in(db: Session, entry: schemas.AttendanceEntryCreate):
+    db_entry = models.AttendanceEntries(
+        rfid_key=entry.rfid_key,
+        in_time=entry.in_time,
+        updated_time=datetime.datetime.now(),
+    )
+    db_entry.user_id = 2
+    db.add(db_entry)
+    db.commit()
+    db.refresh(db_entry)
+    return db_entry
+
+
+def get_attendance(db: Session):
+    return db.query(models.AttendanceEntries).all()
+
+
+def attendance_out(db: Session, entry: schemas.AttendanceOut):
+    db_entry = (
+        db.query(models.AttendanceEntries)
+        .filter(models.AttendanceEntries.id == entry.id)
+        .first()
+    )
+    db_entry.out_time = entry.out_time
+    db_entry.updated_time = datetime.datetime.now()
+    db.commit()
+    db.refresh(db_entry)
+    return db_entry
+
+
+def update_user_rfid_key(db: Session, user_email: str, rfid_key: str):
+    db_user = db.query(models.User).filter(models.User.email == user_email).first()
+    db_user.rfid_key = rfid_key
+    db.commit()
+    return db_user

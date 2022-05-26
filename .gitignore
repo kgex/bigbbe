@@ -5,5 +5,3 @@ sendgrid.env
 alembic.ini
 migrations/
 migrations/versions/
-
-

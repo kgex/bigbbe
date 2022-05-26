@@ -6,7 +6,7 @@
 conda create -n bigb python=3.8
 conda activate bigb
 pip install -r requirements.txt
-uvicorn sql_app.main:app --reload
+uvicorn app.main:app --reload
 ```
 
 ## Heroku Deploy Command
@@ -15,12 +15,4 @@ heroku git:remote -a bigbbe
 git push heroku main
 ```
 
-_Create User_
-```
-
-{
-  "email": "mail@nivu.me",
-  "full_name": "Nivu",
-  "password": "root"
-}
-```
+## Todo deployment docs
