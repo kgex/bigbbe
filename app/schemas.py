@@ -152,8 +152,18 @@ class AttendanceIn(BaseModel):
         orm_mode = True
 
 
+class AttendanceInResponse(BaseModel):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
 class AttendanceEntry(BaseModel):
     id: int
+    user_id: int
+    in_time: datetime
+    out_time: datetime
 
     class Config:
         orm_mode = True

@@ -278,7 +278,7 @@ def reset_password(user_email: str, new_password: str, db: Session = Depends(get
 #     return user_grievances
 
 
-@app.post("/attendance_in", response_model=schemas.AttendanceEntry)
+@app.post("/attendance_in", response_model=schemas.AttendanceInResponse)
 def attendance_in(
     attendance_entry: schemas.AttendanceIn, db: Session = Depends(get_db)
 ):
@@ -288,23 +288,16 @@ def attendance_in(
     return crud.attendance_in(db=db, entry=attendance_entry, user_id=db_user.id)
 
 
-@app.patch("/attendance_out", response_model=schemas.AttendanceEntry)
+@app.patch("/attendance_out", response_model=schemas.AttendanceInResponse)
 def attendance_out(
     attendance_entry: schemas.AttendanceOut, db: Session = Depends(get_db)
 ):
     return crud.attendance_out(db=db, entry=attendance_entry)
 
 
-@app.get("attendance", response_model=List[schemas.AttendanceEntry])
-def get_attendance(user_id: int, db: Session = Depends(get_db)):
-    attendance = crud.get_attendance(db=db, user_id=user_id)
-    if not attendance:
-        raise HTTPException(
-            status_code=status.HTTP_403_UNAUTHORIZED,
-            detail="You are not authorized to access this resource",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    return attendance
+@app.get("/attendance", response_model=List[schemas.AttendanceEntry])
+def get_attendance(db: Session = Depends(get_db)):
+    return crud.get_attendance(db=db)
 
 
 @app.patch("/updaterfid", response_model=schemas.User)
