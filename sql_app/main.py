@@ -234,3 +234,22 @@ def reset_password(user_email: str, new_password: str, db: Session = Depends(get
 #         )
 #         return user_grievances
 #     return user_grievances
+
+@app.post("/attendance_in",response_model=schemas.AttendanceEntryCreate)
+def attendance_in(attendance_entry: schemas.AttendanceEntryCreate, db: Session = Depends(get_db)):
+    return crud.attendance_in(db=db, entry=attendance_entry)
+
+@app.post("/attendance_out",response_model=schemas.AttendanceEntry)
+def attendance_out(attendance_entry: schemas.AttendanceOut, db: Session = Depends(get_db)):
+    return crud.attendance_out(db=db, entry=attendance_entry)
+
+@app.get("attendance", response_model=List[schemas.AttendanceEntry])
+def get_attendance(user_id: int, db: Session = Depends(get_db)):
+    attendance = crud.get_attendance(db=db, user_id=user_id)
+    if not attendance:
+        raise HTTPException(
+            status_code=status.HTTP_403_UNAUTHORIZED,
+            detail="You are not authorized to access this resource",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return attendance

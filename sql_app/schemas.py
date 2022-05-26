@@ -121,3 +121,21 @@ class VerifyToken(BaseModel):
     expires: datetime
     class Config:
         orm_mode = True
+
+class AttendanceEntryCreate(BaseModel):
+    in_time: datetime
+    rfid_key: str
+    class Config:
+        orm_mode = True
+
+class AttendanceEntry(BaseModel):
+    id: int
+    class Config:
+        orm_mode = True
+
+
+class AttendanceOut(BaseModel):
+    id: int
+    out_time: datetime
+    class Config:
+        orm_mode = True
