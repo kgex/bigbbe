@@ -55,6 +55,8 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
+    if user.email.split('@')[1] != 'kgkite.ac.in':
+        raise HTTPException(status_code=400, detail="Email must be from kgkite.ac.in")
     db_user = crud.create_user(db=db, user=user)
     db_user.otp = auth.generate_otp(4)
     crud.save_user_details(db=db, user=db_user)
@@ -253,3 +255,7 @@ def get_attendance(user_id: int, db: Session = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
     return attendance
+
+@app.patch("/updaterfid", response_model=schemas.User)
+def update_rfid(details:schemas.UpdateRFID, db: Session = Depends(get_db)):
+    return crud.update_user_rfid_key(db=db, user_email=details.email, rfid_key=details.rfid_key)

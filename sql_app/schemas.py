@@ -139,3 +139,9 @@ class AttendanceOut(BaseModel):
     out_time: datetime
     class Config:
         orm_mode = True
+
+class UpdateRFID(BaseModel):
+    rfid_key: str
+    email: str
+    class Config:
+        orm_mode = True

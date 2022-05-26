@@ -171,3 +171,9 @@ def create_attendance_out_entry(db:Session, entry: schemas.AttendanceOut):
     db.commit()
     db.refresh(db_entry)
     return db_entry
+
+def update_user_rfid_key(db:Session, user_email:str, rfid_key:str):
+    db_user = db.query(models.User).filter(models.User.email == user_email).first()
+    db_user.rfid_key = rfid_key
+    db.commit()
+    return db_user
