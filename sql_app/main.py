@@ -239,7 +239,7 @@ def reset_password(user_email: str, new_password: str, db: Session = Depends(get
 def attendance_in(attendance_entry: schemas.AttendanceEntryCreate, db: Session = Depends(get_db)):
     return crud.attendance_in(db=db, entry=attendance_entry)
 
-@app.post("/attendance_out",response_model=schemas.AttendanceEntry)
+@app.patch("/attendance_out",response_model=schemas.AttendanceEntry)
 def attendance_out(attendance_entry: schemas.AttendanceOut, db: Session = Depends(get_db)):
     return crud.attendance_out(db=db, entry=attendance_entry)
 
