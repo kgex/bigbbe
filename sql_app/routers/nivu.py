@@ -8,6 +8,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+
 @router.get("/", tags=["nivu"])
 async def read_users():
     return [{"username": "Rick"}, {"username": "Morty"}]
