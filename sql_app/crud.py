@@ -197,8 +197,10 @@ def attendance_in(db: Session, entry: schemas.AttendanceEntryCreate):
     db.refresh(db_entry)
     return db_entry
 
+
 def get_attendance(db: Session):
     return db.query(models.AttendanceEntries).all()
+
 
 def create_attendance_out_entry(db: Session, entry: schemas.AttendanceOut):
     db_entry = (

@@ -5,7 +5,6 @@ from .enums import TaskEnum, GrievanceEnum
 from .database import Base
 
 
-
 class User(Base):
     __tablename__ = "users"
 
@@ -15,7 +14,7 @@ class User(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=False)
     otp = Column(Integer, unique=True)
-    role = Column(String, default='student')
+    role = Column(String, default="student")
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")
     reports = relationship("Report", back_populates="owner")
@@ -31,6 +30,7 @@ class Item(Base):
 
     owner = relationship("User", back_populates="items")
 
+
 class Entry(Base):
     __tablename__ = "entries"
 
@@ -45,17 +45,18 @@ class Entry(Base):
 
 class Report(Base):
 
-    __tablename__ = 'reports'
-    
+    __tablename__ = "reports"
+
     id = Column(Integer, primary_key=True, index=True)
     task_type = Column(Enum(TaskEnum), index=True)
     title = Column(String, index=True)
-    description = Column(String, index = True)
-    start_time = Column(DateTime, index = True)
+    description = Column(String, index=True)
+    start_time = Column(DateTime, index=True)
     stop_time = Column(DateTime, index=True)
-    owner_id =  Column(Integer, ForeignKey("users.id"))
+    owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="reports")
+
 
 # task type(learnin, project, others)
 # title
@@ -64,22 +65,24 @@ class Report(Base):
 # stop time
 # owner_id
 
+
 class Client(Base):
-    __tablename__ = 'clients'
+    __tablename__ = "clients"
 
     id = Column(Integer, primary_key=True)
-    owner_id = Column(Integer, ForeignKey('users.id'))
+    owner_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String, index=True)
     description = Column(String, index=True)
     poc_name = Column(String, index=True)
     poc_phone = Column(String, index=True)
     poc_email = Column(String, index=True)
 
+
 class Project(Base):
-    __tablename__ = 'projects'
+    __tablename__ = "projects"
 
     id = Column(Integer, primary_key=True)
-    owner_id = Column(Integer, ForeignKey('clients.id'))
+    owner_id = Column(Integer, ForeignKey("clients.id"))
     name = Column(String, index=True)
     description = Column(String, index=True)
     start_time = Column(DateTime, index=True)
@@ -88,10 +91,10 @@ class Project(Base):
 
 
 class Grievance(Base):
-    __tablename__ = 'grievances'
+    __tablename__ = "grievances"
 
     id = Column(Integer, primary_key=True)
-    owner_id = Column(Integer, ForeignKey('users.id'))
+    owner_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String, index=True)
     description = Column(String, index=True)
     image_url = Column(String, index=True)
@@ -99,9 +102,9 @@ class Grievance(Base):
 
 
 class Token(Base):
-    __tablename__ = 'tokens'
+    __tablename__ = "tokens"
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey("users.id"))
     token = Column(String, index=True)
     expires = Column(DateTime, index=True)
