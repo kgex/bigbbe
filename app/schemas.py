@@ -60,6 +60,11 @@ class UserCreate(UserBase):
     password: str
 
 
+class UserVerify(BaseModel):
+    email: str
+    otp: int
+
+
 class User(UserBase):
     id: int
     items: List[Item] = []
@@ -134,6 +139,47 @@ class VerifyToken(BaseModel):
     owner_id: int
     token: str
     expires: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class AttendanceIn(BaseModel):
+    in_time: datetime
+    rfid_key: str
+
+    class Config:
+        orm_mode = True
+
+
+class AttendanceInResponse(BaseModel):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class AttendanceEntry(BaseModel):
+    id: int
+    user_id: int
+    in_time: datetime
+    out_time: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class AttendanceOut(BaseModel):
+    id: int
+    out_time: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class UpdateRFID(BaseModel):
+    rfid_key: str
+    email: str
 
     class Config:
         orm_mode = True
