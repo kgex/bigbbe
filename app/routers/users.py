@@ -3,8 +3,8 @@ from ..auth import get_current_active_user
 from sqlalchemy.orm import Session
 
 from . import crud, models, schemas, auth, email
-from .database import SessionLocal, engine
-from .schemas import User, Token
+from ..database import SessionLocal, engine
+from ..schemas import User, Token
 
 
 def get_db():
