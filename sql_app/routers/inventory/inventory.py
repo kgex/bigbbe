@@ -6,12 +6,14 @@ from ...database import SessionLocal
 from ...models import User
 from typing import List
 
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
 
 router = APIRouter(
     prefix="/inventory",
@@ -20,39 +22,66 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+
 @router.get("/", response_model=List[schemas.InventoryOut])
-def read_inventory(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), user: User = Depends(get_current_active_user)):
+def read_inventory(
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_active_user),
+):
     if user.role != "admin":
         raise HTTPException(status_code=400, detail="Not authorized")
     inventory = crud.get_inventory(db, skip=skip, limit=limit)
     return inventory
 
+
 @router.post("/", response_model=schemas.InventoryOut)
-def create_inventory(inventory: schemas.InventoryIn, db: Session = Depends(get_db), user: User = Depends(get_current_active_user)):
+def create_inventory(
+    inventory: schemas.InventoryIn,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_active_user),
+):
     if user.role != "admin":
         raise HTTPException(status_code=400, detail="Not authorized")
-    inventory = crud.create_inventory(db=db, inventory=inventory, user_id = user.id)
+    inventory = crud.create_inventory(db=db, inventory=inventory, user_id=user.id)
     return inventory
+
 
 @router.patch("/{inventory_id}", response_model=schemas.InventoryOut)
-def update_inventory(inventory_id: int, inventory: schemas.InventoryUpdate, db: Session = Depends(get_db), user: User = Depends(get_current_active_user)):
+def update_inventory(
+    inventory_id: int,
+    inventory: schemas.InventoryUpdate,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_active_user),
+):
     if user.role != "admin":
         raise HTTPException(status_code=400, detail="Not authorized")
-    inventory = crud.update_inventory(db=db, inventory_id=inventory_id, inventory=inventory)
+    inventory = crud.update_inventory(
+        db=db, inventory_id=inventory_id, inventory=inventory
+    )
     return inventory
 
+
 @router.delete("/{inventory_id}", response_model=schemas.InventoryOut)
-def delete_inventory(inventory_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_active_user)):
+def delete_inventory(
+    inventory_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_active_user),
+):
     if user.role != "admin":
         raise HTTPException(status_code=400, detail="Not authorized")
     inventory = crud.delete_inventory(db=db, inventory_id=inventory_id)
     return inventory
 
+
 @router.get("/{inventory_id}", response_model=schemas.InventoryOut)
-def read_inventory_by_id(inventory_id: int, db: Session = Depends(get_db), user: User = Depends(get_current_active_user)):
+def read_inventory_by_id(
+    inventory_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_active_user),
+):
     if user.role != "admin":
         raise HTTPException(status_code=400, detail="Not authorized")
     inventory = crud.read_inventory_by_id(db=db, inventory_id=inventory_id)
     return inventory
-
-

@@ -125,7 +125,7 @@ class AttendanceEntries(Base):
 
 
 class Inventory(Base):
-    __tablename__ = 'inventory'
+    __tablename__ = "inventory"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
@@ -136,11 +136,11 @@ class Inventory(Base):
     college = Column(String, index=True)
     description = Column(String, index=True)
     purchase_date = Column(DateTime, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey("users.id"))
 
     created_at = Column(DateTime, index=True)
     updated_at = Column(DateTime, index=True)
     item_condition = Column(String, index=True)
     purchase_price = Column(Integer, index=True)
-    photo_urls  = Column(String, index=True)
+    photo_urls = Column(String, index=True)
     thumbnail_url = Column(String, index=True)

@@ -1,6 +1,8 @@
-from datetime import datetime    
+from datetime import datetime
 from pydantic import BaseModel
 from typing import List, Optional
+
+
 class InventoryIn(BaseModel):
     name: str
     category: str
@@ -19,10 +21,13 @@ class InventoryIn(BaseModel):
     class Config:
         orm_mode = True
 
+
 class InventoryOut(InventoryIn):
     id: int
+
     class Config:
         orm_mode = True
+
 
 class InventoryUpdate(BaseModel):
     category: Optional[str]
@@ -39,5 +44,6 @@ class InventoryUpdate(BaseModel):
     photo_urls: Optional[str]
     thumbnail_url: Optional[str]
     category: Optional[str]
+
     class Config:
         orm_mode = True
