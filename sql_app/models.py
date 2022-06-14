@@ -115,7 +115,29 @@ class AttendanceEntries(Base):
     __tablename__ = 'attendance_entries'
 
     id = Column(Integer, primary_key=True)
-    rfid_key = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"))
     in_time = Column(DateTime, index=True)
     out_time = Column(DateTime, index=True, nullable=True)
     updated_time = Column(DateTime, index=True)
+
+
+class Inventory(Base):
+    __tablename__ = 'inventory'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, index=True)
+    category = Column(String, index=True)
+    qty = Column(Integer, index=True)
+    specs = Column(String, index=True)
+    department = Column(String, index=True)
+    college = Column(String, index=True)
+    description = Column(String, index=True)
+    purchase_date = Column(DateTime, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+    created_at = Column(DateTime, index=True)
+    updated_at = Column(DateTime, index=True)
+    item_condition = Column(String, index=True)
+    purchase_price = Column(Integer, index=True)
+    photo_urls  = Column(String, index=True)
+    thumbnail_url = Column(String, index=True)

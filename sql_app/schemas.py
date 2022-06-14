@@ -2,6 +2,7 @@ from datetime import datetime
 from decimal import Overflow
 from typing import List, Optional
 import enum
+from unicodedata import name
 from xmlrpc.client import DateTime
 from .enums import TaskEnum, GrievanceEnum    
 from pydantic import BaseModel
@@ -143,5 +144,29 @@ class AttendanceOut(BaseModel):
 class UpdateRFID(BaseModel):
     rfid_key: str
     email: str
+    class Config:
+        orm_mode = True
+
+class InventoryIn(BaseModel):
+    name: str
+    category: int
+    qty: int
+    specs: str
+    department: str
+    college: str
+    desc: str
+    purchase_date: datetime
+    user_id: int
+    created_at: datetime
+    item_condition: str
+    purchase_price: float
+    photo_urls: str
+    thumbnail_url: str
+
+    class Config:
+        orm_mode = True
+
+class InventoryOut(InventoryIn):
+    id: int
     class Config:
         orm_mode = True

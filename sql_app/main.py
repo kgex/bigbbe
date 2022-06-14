@@ -10,12 +10,13 @@ from . import crud, models, schemas, auth, email
 from .database import SessionLocal, engine
 from .schemas import User, Token
 from .routers import nivu
-
+from .routers.inventory import inventory
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.include_router(nivu.router)
+app.include_router(inventory.router, tags=["inventory"])
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
