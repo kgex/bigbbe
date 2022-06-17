@@ -16,6 +16,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.include_router(nivu.router)
+# app.include_router()
 app.include_router(inventory.router, tags=["inventory"])
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
