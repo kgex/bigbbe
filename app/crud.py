@@ -65,9 +65,11 @@ def get_user_report_by_id(db: Session, report_id: int):
 
 def delete_user(db: Session, user_id: int):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if db_user is None:
+        return {"msg": "User does not exist"}
     db.delete(db_user)
     db.commit()
-    return db_user
+    return {"msg": "User has been deleted successfully"}
 
 
 def change_password(db: Session, user_id: int, new_password: str, old_password: str):
