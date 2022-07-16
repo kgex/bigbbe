@@ -128,7 +128,10 @@ async def login_for_access_token(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-
+@app.delete("/users/{user_id}")
+def delete_user( user: schemas.UserDelete, db: Session = Depends(get_db)):
+    return crud.delete_user(user_id=user.id, db=db)
+    
 @app.get("/users/me/", response_model=User)
 async def read_users_me(current_user: User = Depends(auth.get_current_active_user)):
     return current_user
@@ -162,10 +165,9 @@ def get_user_report(report_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/client", response_model=schemas.ClientResponse)
-def create_client(
-    user_id: int, client: schemas.ClientBase, db: Session = Depends(get_db)
+def create_client( client: schemas.ClientBase, db: Session = Depends(get_db)
 ):
-    return crud.create_client(db=db, client=client, user_id=user_id)
+    return crud.create_client(db=db, client=client)
 
 
 @app.get("/clients", response_model=List[schemas.ClientResponse])
