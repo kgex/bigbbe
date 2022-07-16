@@ -53,7 +53,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     if user.email.split("@")[1] != "kgkite.ac.in":
         raise HTTPException(status_code=400, detail="Email must be from kgkite.ac.in")
     db_user = crud.create_user(db=db, user=user)
-    db_user.otp = auth.generate_otp(4)
+    db_user.otp = auth.generate_otp(6)
     crud.save_user_details(db=db, user=db_user)
     msg = "Your OTP is: <h2>" + str(db_user.otp) + "</h2>"
     email_client = email.Email()
