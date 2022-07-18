@@ -116,6 +116,7 @@ class ProjectBase(BaseModel):
     start_time: datetime
     stop_time: datetime
     project_status: str
+    domain: str
 
     class Config:
         orm_mode = True

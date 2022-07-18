@@ -91,6 +91,7 @@ class Project(Base):
     start_time = Column(DateTime, index=True)
     stop_time = Column(DateTime, index=True)
     project_status = Column(String, index=True)
+    domain = Column(String, index=True)
 
 
 class Grievance(Base):
