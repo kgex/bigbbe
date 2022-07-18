@@ -50,9 +50,11 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    valid_domains=['kgkite.ac.in', 'kgcas.com']
+    valid_domains = ["kgkite.ac.in", "kgcas.com"]
     if user.email.split("@")[1] not in valid_domains:
-        raise HTTPException(status_code=400, detail="Email must be from kgkite.ac.in or kgkcas.com")
+        raise HTTPException(
+            status_code=400, detail="Email must be from kgkite.ac.in or kgkcas.com"
+        )
     db_user = crud.create_user(db=db, user=user)
     db_user.otp = auth.generate_otp(6)
     crud.save_user_details(db=db, user=db_user)
@@ -129,10 +131,12 @@ async def login_for_access_token(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+
 @app.delete("/users/{user_id}")
-def delete_user( user: schemas.UserDelete, db: Session = Depends(get_db)):
+def delete_user(user: schemas.UserDelete, db: Session = Depends(get_db)):
     return crud.delete_user(user_id=user.id, db=db)
-    
+
+
 @app.get("/users/me/", response_model=User)
 async def read_users_me(current_user: User = Depends(auth.get_current_active_user)):
     return current_user
@@ -166,8 +170,7 @@ def get_user_report(report_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/client", response_model=schemas.ClientResponse)
-def create_client( client: schemas.ClientBase, db: Session = Depends(get_db)
-):
+def create_client(client: schemas.ClientBase, db: Session = Depends(get_db)):
     return crud.create_client(db=db, client=client)
 
 
