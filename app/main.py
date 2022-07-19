@@ -189,7 +189,7 @@ def delete_client(client_id: int, db: Session = Depends(get_db)):
     return crud.delete_client(db=db, client_id=client_id)
 
 
-@app.post("/clients/{client_id}/project", response_model=schemas.ProjectResponse)
+@app.post("/clients/{client_id}/projects", response_model=schemas.ProjectResponse)
 def create_project(
     client_id: int, project: schemas.ProjectBase, db: Session = Depends(get_db)
 ):
