@@ -60,6 +60,10 @@ class UserCreate(UserBase):
     password: str
 
 
+class UserDelete(BaseModel):
+    id: int
+
+
 class UserVerify(BaseModel):
     email: str
     otp: int
