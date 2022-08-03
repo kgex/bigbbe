@@ -224,13 +224,28 @@ def update_user_rfid_key(db: Session, user_email: str, rfid_key: str):
 
 
 def get_today_attendance(db: Session, user_id: int):
-    db_att = db.query(models.AttendanceEntries).filter(
-        models.AttendanceEntries.user_id == user_id  and models.AttendanceEntries.user_id == models.Report.owner_id and models.Report.start_date == datetime.datetime.now().date()).all()
+    db_att = (
+        db.query(models.AttendanceEntries)
+        .filter(
+            models.AttendanceEntries.user_id == user_id
+            and models.AttendanceEntries.user_id == models.Report.owner_id
+            and models.Report.start_date == datetime.datetime.now().date()
+        )
+        .all()
+    )
     print(type(db_att))
     return db_att
 
+
 def get_previous_month_attendance(db: Session, user_id: int):
-    db_att = db.query(models.AttendanceEntries).filter(
-        models.AttendanceEntries.user_id == user_id  and models.AttendanceEntries.user_id == models.Report.owner_id and models.Report.start_date == datetime.datetime.now().date()).all()
+    db_att = (
+        db.query(models.AttendanceEntries)
+        .filter(
+            models.AttendanceEntries.user_id == user_id
+            and models.AttendanceEntries.user_id == models.Report.owner_id
+            and models.Report.start_date == datetime.datetime.now().date()
+        )
+        .all()
+    )
     print(type(db_att))
     return db_att
