@@ -2,7 +2,7 @@ __pycache__/
 env/
 *.db
 sendgrid.env
-alembic.ini
+*.ini
 migrations/
 migrations/versions/
 .env

@@ -221,3 +221,9 @@ def update_user_rfid_key(db: Session, user_email: str, rfid_key: str):
     db_user.rfid_key = rfid_key
     db.commit()
     return db_user
+
+
+def get_today_attendance(db: Session, user_id: int):
+    return db.query(models.AttendanceEntries).filter(
+        models.AttendanceEntries.user_id == models.Report.owner_id,
+    ).all()

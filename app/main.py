@@ -260,6 +260,7 @@ def forgot_password(user_email: str, db: Session = Depends(get_db)):
 def enter_otp(user_email: str, otp: int, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user_email)
     if db_user.otp == otp:
+        db_user.otp = 0
         return {"status": "success", "message": "OTP verified"}
     else:
         return {"status": "failure", "message": "OTP not verified"}
@@ -270,7 +271,7 @@ def reset_password(user_email: str, new_password: str, db: Session = Depends(get
     db_user = crud.get_user_by_email(db, email=user_email)
     db_user.password = new_password
     crud.save_user_details(db, db_user)
-    return db_user
+    return {"status": "success", "message": "Password reset successfully"}
 
 
 # @app.get("/users/{user_id}/getgrievances", response_model=List[schemas.Grievance])
@@ -313,3 +314,7 @@ def update_rfid(details: schemas.UpdateRFID, db: Session = Depends(get_db)):
     return crud.update_user_rfid_key(
         db=db, user_email=details.email, rfid_key=details.rfid_key
     )
+
+@app.get("/get_today_attendace")
+def get_today_attendance( user_id: int, db: Session = Depends(get_db)):
+    return crud.get_today_attendance(db=db, user_id=user_id)
