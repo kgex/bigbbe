@@ -315,6 +315,7 @@ def update_rfid(details: schemas.UpdateRFID, db: Session = Depends(get_db)):
         db=db, user_email=details.email, rfid_key=details.rfid_key
     )
 
+
 @app.get("/get_today_attendace")
-def get_today_attendance( user_id: int, db: Session = Depends(get_db)):
+def get_today_attendance(user_id: int, db: Session = Depends(get_db)):
     return crud.get_today_attendance(db=db, user_id=user_id)

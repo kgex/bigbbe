@@ -109,7 +109,7 @@ class Token(Base):
     __tablename__ = "tokens"
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE") )
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     token = Column(String, index=True)
     expires = Column(DateTime, index=True)
 
@@ -137,7 +137,7 @@ class Inventory(Base):
     college = Column(String, index=True)
     description = Column(String, index=True)
     purchase_date = Column(DateTime, index=True)
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE") )
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
 
     created_at = Column(DateTime, index=True)
     updated_at = Column(DateTime, index=True)
