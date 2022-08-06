@@ -2,7 +2,7 @@ from enum import unique
 from pydoc import describe
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Enum
 from sqlalchemy.orm import relationship
-from .enums import TaskEnum, GrievanceEnum
+from .enums import TaskEnum, GrievanceEnum, PriorityEnum, StatusEnum
 from .database import Base
 
 
@@ -17,6 +17,7 @@ class User(Base):
     rfid_key = Column(String, unique=True)
     otp = Column(Integer, unique=True)
     role = Column(String, default="student")
+    discord_username = Column(String, unique=True)
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")
     reports = relationship("Report", back_populates="owner")
@@ -56,7 +57,9 @@ class Report(Base):
     start_time = Column(DateTime, index=True)
     stop_time = Column(DateTime, index=True)
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
-
+    assigned_by = Column(String, unique=True, index=True)
+    priority = Column(String, index=True)
+    status = Column(String, index=True)
     owner = relationship("User", back_populates="reports")
 
 

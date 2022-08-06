@@ -154,6 +154,11 @@ def get_user_reports(user_id: int, db: Session = Depends(get_db)):
     users = crud.get_user_report(db=db, user_id=user_id)
     return users
 
+@app.patch("/users/{user_id}/reports/{report_id}", response_model=schemas.Report)
+def update_user_report(
+    user_id: int, report_id: int, report: schemas.Report, db: Session = Depends(get_db)
+):
+    return crud.update_user_report(db=db, report=report, user_id=user_id, report_id=report_id)
 
 @app.post("/resetpass", response_model=schemas.User)
 def reset_password(
@@ -304,7 +309,7 @@ def attendance_out(
     return crud.attendance_out(db=db, entry=attendance_entry)
 
 
-@app.get("/attendance", response_model=List[schemas.AttendanceEntry])
+@app.get("/attendance")
 def get_attendance(db: Session = Depends(get_db)):
     return crud.get_attendance(db=db)
 
@@ -316,10 +321,19 @@ def update_rfid(details: schemas.UpdateRFID, db: Session = Depends(get_db)):
     )
 
 
-@app.get("/get_today_attendace")
+@app.get("/get_today_attendance")
 def get_today_attendance( user_id: int, db: Session = Depends(get_db)):
     return crud.get_today_attendance(db=db, user_id=user_id)
 
-@app.get("/get_previous_month_attendance")
+@app.get("/get_previous_month_attendance", response_model=List[schemas.AttendanceResponse])
 def get_previous_month_attendance( user_id: int, db: Session = Depends(get_db)):
     return crud.get_previous_month_attendance(db=db, user_id=user_id)
+
+
+@app.patch("/user/{user_id}/{discord_id}")
+def update_discord_id(user_id: int, discord_username: str, db: Session = Depends(get_db)):
+    return crud.add_user_discord_id(db=db, user_id=user_id, discord_username=discord_username)
+
+@app.get("/user/{user_id}/{discord_id}")
+def get_user_report_by_discord_id(discord_username: str, db: Session = Depends(get_db)):
+    return crud.get_user_reports_by_discord_id(db=db, discord_username=discord_username)

@@ -71,6 +71,7 @@ class UserVerify(BaseModel):
 
 class User(UserBase):
     id: int
+    rfid_key: Optional[str]
     items: List[Item] = []
 
     class Config:
@@ -83,6 +84,10 @@ class Report(BaseModel):
     description: str
     start_time: datetime
     stop_time: datetime
+    owner_id: int
+    assigned_by: Optional[str]
+    priority: Optional[str]
+    status: Optional[str]
 
     class Config:
         orm_mode = True
@@ -185,6 +190,13 @@ class AttendanceOut(BaseModel):
 class UpdateRFID(BaseModel):
     rfid_key: str
     email: str
+
+    class Config:
+        orm_mode = True
+
+class AttendanceResponse(BaseModel):
+    User: User
+    AttendanceEntries: AttendanceEntry
 
     class Config:
         orm_mode = True
