@@ -238,39 +238,14 @@ def update_user_rfid_key(db: Session, user_email: str, rfid_key: str):
 
 
 def get_today_attendance(db: Session, user_id: int):
-<<<<<<< HEAD
     db_att = db.query(models.AttendanceEntries, models.User).join(models.User).filter(models.AttendanceEntries.user_id == user_id ,models.AttendanceEntries.out_time == datetime.datetime.now().date()).all()
-=======
-    db_att = (
-        db.query(models.AttendanceEntries)
-        .filter(
-            models.AttendanceEntries.user_id == user_id
-            and models.AttendanceEntries.user_id == models.Report.owner_id
-            and models.Report.start_date == datetime.datetime.now().date()
-        )
-        .all()
-    )
->>>>>>> 5db2acc43c68319151ad208f179722847d5d6c20
     print(type(db_att))
     return db_att
 
 
 def get_previous_month_attendance(db: Session, user_id: int):
-<<<<<<< HEAD
     print(type(models.AttendanceEntries.out_time))
     db_att = db.query(models.AttendanceEntries, models.User).join(models.AttendanceEntries).filter(models.AttendanceEntries.user_id==user_id).all()
-=======
-    db_att = (
-        db.query(models.AttendanceEntries)
-        .filter(
-            models.AttendanceEntries.user_id == user_id
-            and models.AttendanceEntries.user_id == models.Report.owner_id
-            and models.Report.start_date == datetime.datetime.now().date()
-        )
-        .all()
-    )
-    print(type(db_att))
->>>>>>> 5db2acc43c68319151ad208f179722847d5d6c20
     return db_att
 
 def add_user_discord_id(db: Session, user_id: int, discord_username: str):

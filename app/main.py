@@ -321,22 +321,12 @@ def update_rfid(details: schemas.UpdateRFID, db: Session = Depends(get_db)):
     )
 
 
-<<<<<<< HEAD
 @app.get("/get_today_attendance")
 def get_today_attendance( user_id: int, db: Session = Depends(get_db)):
     return crud.get_today_attendance(db=db, user_id=user_id)
 
 @app.get("/get_previous_month_attendance", response_model=List[schemas.AttendanceResponse])
 def get_previous_month_attendance( user_id: int, db: Session = Depends(get_db)):
-=======
-@app.get("/get_today_attendace")
-def get_today_attendance(user_id: int, db: Session = Depends(get_db)):
-    return crud.get_today_attendance(db=db, user_id=user_id)
-
-
-@app.get("/get_previous_month_attendance")
-def get_previous_month_attendance(user_id: int, db: Session = Depends(get_db)):
->>>>>>> 5db2acc43c68319151ad208f179722847d5d6c20
     return crud.get_previous_month_attendance(db=db, user_id=user_id)
 
 
