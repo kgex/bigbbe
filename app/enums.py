@@ -13,6 +13,7 @@ class GrievanceEnum(enum.Enum):
     discriminitation = "discriminitation"
     others = "others"
 
+
 class PriorityEnum(enum.Enum):
     low = "low"
     medium = "medium"
@@ -20,6 +21,7 @@ class PriorityEnum(enum.Enum):
     urgent = "urgent"
     critical = "critical"
     none = "none"
+
 
 class StatusEnum(enum.Enum):
     open = "open"
