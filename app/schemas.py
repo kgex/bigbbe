@@ -194,6 +194,7 @@ class UpdateRFID(BaseModel):
     class Config:
         orm_mode = True
 
+
 class AttendanceResponse(BaseModel):
     User: User
     AttendanceEntries: AttendanceEntry
