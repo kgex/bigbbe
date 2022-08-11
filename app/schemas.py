@@ -1,8 +1,6 @@
 from datetime import datetime
 from decimal import Overflow
 from typing import List, Optional
-import enum
-from xmlrpc.client import DateTime
 from .enums import TaskEnum, GrievanceEnum
 from pydantic import BaseModel
 
@@ -92,6 +90,18 @@ class Report(BaseModel):
     class Config:
         orm_mode = True
 
+class ReportDiscord(BaseModel):
+    task_type: TaskEnum
+    title: str
+    description: str
+    start_time: datetime
+    stop_time: datetime
+    assigned_by: Optional[str]
+    priority: Optional[str]
+    status: Optional[str]
+
+    class Config:
+        orm_mode = True
 
 class ResetPasswordBase(BaseModel):
     email: str

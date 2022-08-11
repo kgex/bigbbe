@@ -1,8 +1,9 @@
+from dis import dis
 from sqlalchemy.orm import Session
 import datetime
 from . import models, schemas
 from .auth import get_password_hash
-
+from sqlalchemy import func
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
@@ -47,7 +48,7 @@ def create_user_entry(db: Session, entry: schemas.Entry, user_id: int):
     return db_entry
 
 
-def create_user_report(db: Session, report: schemas.Report, user_id: int):
+def create_user_report(db: Session, report: schemas.Report):
     db_report = models.Report(**report.dict())
     db.add(db_report)
     db.commit()
@@ -281,3 +282,12 @@ def get_user_reports_by_discord_id(db: Session, discord_username: str):
         .filter(models.User.discord_username == discord_username)
         .all()[0]["Report"]
     )
+
+def add_reports_by_discord_id(db:Session, report: schemas.ReportDiscord, discord_username: str):
+    user_id = db.query(models.User).filter(models.User.discord_username == discord_username).first().id
+    db_report = models.Report(**report.dict())
+    db_report.owner_id=user_id
+    db.add(db_report)
+    db.commit()
+    db.refresh()
+    return {"message": "report succesfully added"}
