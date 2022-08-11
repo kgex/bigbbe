@@ -334,6 +334,6 @@ def get_previous_month_attendance( user_id: int, db: Session = Depends(get_db)):
 def update_discord_id(user_id: int, discord_username: str, db: Session = Depends(get_db)):
     return crud.add_user_discord_id(db=db, user_id=user_id, discord_username=discord_username)
 
-@app.get("/user/{user_id}/{discord_id}")
+@app.get("/discord")
 def get_user_report_by_discord_id(discord_username: str, db: Session = Depends(get_db)):
     return crud.get_user_reports_by_discord_id(db=db, discord_username=discord_username)
