@@ -48,7 +48,7 @@ def create_user_entry(db: Session, entry: schemas.Entry, user_id: int):
 
 
 def create_user_report(db: Session, report: schemas.Report, user_id: int):
-    db_report = models.Report(**report.dict(), owner_id=user_id)
+    db_report = models.Report(**report.dict())
     db.add(db_report)
     db.commit()
     db.refresh(db_report)
@@ -61,6 +61,24 @@ def get_user_report(db: Session, user_id: int):
 
 def get_user_report_by_id(db: Session, report_id: int):
     return db.query(models.Report).filter(models.Report.id == report_id).first()
+
+
+def update_user_report(db: Session, report: schemas.Report, user_id: int):
+    db_report = db.query(models.Report).filter(models.Report.id == report.id).first()
+    db_report.title = report.title
+    db_report.description = report.description
+    db_report.owner_id = user_id
+    db_report.status = report.status
+    db_report.priority = report.priority
+    db_report.stop_date = report.stop_date
+    db.add(db_report)
+    db.commit()
+    db.refresh(db_report)
+    return db_report
+
+
+def get_user_in_progress_reports(db: Session, user_id: int):
+    return db.query(models.Report).filter(models.Report.owner_id == user_id).all()
 
 
 def delete_user(db: Session, user_id: int):
@@ -221,3 +239,45 @@ def update_user_rfid_key(db: Session, user_email: str, rfid_key: str):
     db_user.rfid_key = rfid_key
     db.commit()
     return db_user
+
+
+def get_today_attendance(db: Session, user_id: int):
+    db_att = (
+        db.query(models.AttendanceEntries, models.User)
+        .join(models.User)
+        .filter(
+            models.AttendanceEntries.user_id == user_id,
+            models.AttendanceEntries.out_time == datetime.datetime.now().date(),
+        )
+        .all()
+    )
+    print(type(db_att))
+    return db_att
+
+
+def get_previous_month_attendance(db: Session, user_id: int):
+    print(type(models.AttendanceEntries.out_time))
+    db_att = (
+        db.query(models.AttendanceEntries, models.User)
+        .join(models.AttendanceEntries)
+        .filter(models.AttendanceEntries.user_id == user_id)
+        .all()
+    )
+    return db_att
+
+
+def add_user_discord_id(db: Session, user_id: int, discord_username: str):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    db_user.discord_username = discord_username
+    db.commit()
+    return db_user
+
+
+def get_user_reports_by_discord_id(db: Session, discord_username: str):
+    # return db.query(models.Report).filter(models.User.discord_username == discord_username and models.User.id == models.Report.id).all()
+    return (
+        db.query(models.Report, models.User)
+        .join(models.User, models.User.id == models.Report.owner_id, isouter=True)
+        .filter(models.User.discord_username == discord_username)
+        .all()[0]["Report"]
+    )
