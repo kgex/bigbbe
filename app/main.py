@@ -51,7 +51,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     valid_domains = ["kgkite.ac.in", "kgcas.com"]
-    if user.email.split("@")[1] not in valid_domains:
+    if str(user.email).split("@")[1] not in valid_domains:
         raise HTTPException(
             status_code=400, detail="Email must be from kgkite.ac.in or kgkcas.com"
         )

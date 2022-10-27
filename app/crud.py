@@ -271,7 +271,7 @@ def add_user_discord_id(db: Session, user_id: int, discord_username: str):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     db_user.discord_username = discord_username
     db.commit()
-    return db_user
+    return {"message": "Updated discord id successfully"}
 
 
 def get_user_reports_by_discord_id(db: Session, discord_username: str):
