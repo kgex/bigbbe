@@ -90,6 +90,7 @@ class Report(BaseModel):
     class Config:
         orm_mode = True
 
+
 class ReportDiscord(BaseModel):
     task_type: TaskEnum
     title: str
@@ -102,6 +103,7 @@ class ReportDiscord(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class ResetPasswordBase(BaseModel):
     email: str
