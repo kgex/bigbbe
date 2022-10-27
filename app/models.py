@@ -15,7 +15,7 @@ class User(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=False)
     rfid_key = Column(String, unique=True)
-    otp = Column(Integer, unique=True)
+    otp = Column(Integer)
     role = Column(String, default="student")
     register_num = Column(String, unique = True)
     discord_username = Column(String, unique=True)
