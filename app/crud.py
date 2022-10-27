@@ -19,8 +19,12 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = get_password_hash(user.password)
+    user_dict = user.dict()
+    user_dict['hashed_password'] = hashed_password
+    del user_dict['password']
+    print(user_dict)
     db_user = models.User(
-        email=user.email, full_name=user.full_name, hashed_password=hashed_password
+        **user_dict
     )
     db.add(db_user)
     db.commit()

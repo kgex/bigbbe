@@ -56,7 +56,12 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-
+    phone_no:str
+    register_num:str
+    college:str
+    join_year:int
+    grad_year:int
+    dept:str
 
 class UserDelete(BaseModel):
     id: int
@@ -211,3 +216,8 @@ class AttendanceResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ForgotPass(BaseModel):
+    email: str
+    otp: int
+    password: str

@@ -126,6 +126,12 @@ async def login_for_access_token(
             "user_id": user.id,
             "full_name": user.full_name,
             "role": user.role,
+            "phone_no":user.phone_no,
+            "register_num":user.register_num,
+            "college":user.college,
+            "join_year":user.join_year,
+            "grad_year":user.grad_year,
+            "dept":user.dept
         },
         expires_delta=access_token_expires,
     )
@@ -253,6 +259,7 @@ def get_all_projects(db: Session = Depends(get_db)):
 def forgot_password(user_email: str, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user_email)
     db_user.otp = auth.generate_otp()
+    db_user.otp_last_gen = datetime.now()
     crud.save_user_details(db, db_user)
     msg = "<h2>Your otp is <h1>" + str(db_user.otp) + "</h1></h2>"
     email_client = email.Email()
@@ -266,21 +273,15 @@ def forgot_password(user_email: str, db: Session = Depends(get_db)):
 
 
 @app.post("/enterotp")
-def enter_otp(user_email: str, otp: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db, email=user_email)
-    if db_user.otp == otp:
+def enter_otp(user:schemas.ForgotPass, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user.email)
+    if db_user.otp == user.otp:
         db_user.otp = 0
-        return {"status": "success", "message": "OTP verified"}
+        db_user.hashed_password = auth.get_password_hash(user.password)
+        crud.save_user_details(db,db_user)
+        return {"status": "success", "message": "Password changed successfully"}
     else:
         return {"status": "failure", "message": "OTP not verified"}
-
-
-@app.post("/resetpassword")
-def reset_password(user_email: str, new_password: str, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db, email=user_email)
-    db_user.password = new_password
-    crud.save_user_details(db, db_user)
-    return {"status": "success", "message": "Password reset successfully"}
 
 
 # @app.get("/users/{user_id}/getgrievances", response_model=List[schemas.Grievance])

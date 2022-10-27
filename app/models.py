@@ -1,6 +1,6 @@
 from enum import unique
 from pydoc import describe
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Enum
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Enum, Date
 from sqlalchemy.orm import relationship
 from .enums import TaskEnum, GrievanceEnum, PriorityEnum, StatusEnum
 from .database import Base
@@ -17,7 +17,14 @@ class User(Base):
     rfid_key = Column(String, unique=True)
     otp = Column(Integer, unique=True)
     role = Column(String, default="student")
+    register_num = Column(String, unique = True)
     discord_username = Column(String, unique=True)
+    phone_no = Column(String, unique=True)
+    college = Column(String)
+    dept = Column(String)
+    join_year= Column(Integer)
+    grad_year = Column(Integer)
+    otp_last_gen = Column(DateTime)
     items = relationship("Item", back_populates="owner")
     entries = relationship("Entry", back_populates="owner")
     reports = relationship("Report", back_populates="owner")
