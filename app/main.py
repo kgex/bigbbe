@@ -350,6 +350,11 @@ def update_discord_id(
 def get_user_report_by_discord_id(discord_username: str, db: Session = Depends(get_db)):
     return crud.get_user_reports_by_discord_id(db=db, discord_username=discord_username)
 
+
 @app.post("/discord")
-def add_report_by_discord_username(discord_username: str, report:schemas.ReportDiscord, db: Session = Depends(get_db)):
-    return crud.add_reports_by_discord_id(db=db, discord_username=discord_username, report=report)
+def add_report_by_discord_username(
+    discord_username: str, report: schemas.ReportDiscord, db: Session = Depends(get_db)
+):
+    return crud.add_reports_by_discord_id(
+        db=db, discord_username=discord_username, report=report
+    )
