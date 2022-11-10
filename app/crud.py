@@ -262,10 +262,14 @@ def get_today_attendance(db: Session, user_id: int):
 
 def get_previous_month_attendance(db: Session, user_id: int):
     print(type(models.AttendanceEntries.out_time))
+    first_day = datetime.datetime.now().replace(day=1)
+    limit = (datetime.datetime.now() - first_day.replace(day=1)).days
+    # db_att = db.query(models.AttendanceEntries, models.User).join(models.AttendanceEntries).filter(models.AttendanceEntries.user_id==user_id, models.AttendanceEntries.out_time >= first_day).limit(limit).all()
     db_att = (
         db.query(models.AttendanceEntries, models.User)
         .join(models.AttendanceEntries)
         .filter(models.AttendanceEntries.user_id == user_id)
+        .limit(limit)
         .all()
     )
     return db_att
