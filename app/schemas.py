@@ -62,6 +62,7 @@ class UserCreate(UserBase):
     join_year:int
     grad_year:int
     dept:str
+    role:str
 
 class UserDelete(BaseModel):
     id: int
