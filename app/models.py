@@ -155,3 +155,13 @@ class Inventory(Base):
     purchase_price = Column(Integer, index=True)
     photo_urls = Column(String, index=True)
     thumbnail_url = Column(String, index=True)
+
+
+class QR_Attendance(Base):
+    __tablename__="qr_attendance"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer,ForeignKey("users.id", ondelete="CASCADE"))
+    in_time = Column(DateTime)
+    out_time = Column(DateTime, nullable=True)
+    

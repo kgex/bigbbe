@@ -1,0 +1,182 @@
+2022-10-29 11:04:30,952 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:04:30,952 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:04:30,954 INFO daemonizing the supervisord process
+2022-10-29 11:04:30,955 INFO supervisord started with pid 3542
+2022-10-29 11:04:31,957 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:04:31,960 INFO spawned: 'uvicorn-0' with pid 3552
+2022-10-29 11:04:32,961 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:04:42,798 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:04:42,798 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:04:43,800 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:04:43,801 INFO spawned: 'uvicorn-0' with pid 3623
+2022-10-29 11:04:44,803 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:04:54,279 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:04:54,279 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:04:55,280 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:04:55,282 INFO spawned: 'uvicorn-0' with pid 3683
+2022-10-29 11:04:56,284 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:05:08,543 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:05:08,543 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:05:09,544 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:05:09,546 INFO spawned: 'uvicorn-0' with pid 3700
+2022-10-29 11:05:10,548 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:05:29,771 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:05:29,772 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:05:30,773 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:05:30,775 INFO spawned: 'uvicorn-0' with pid 3719
+2022-10-29 11:05:31,777 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:05:49,081 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:05:49,081 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:05:50,083 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:05:50,085 INFO spawned: 'uvicorn-0' with pid 3734
+2022-10-29 11:05:51,087 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:06:11,456 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:06:11,457 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:06:12,458 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:06:12,461 INFO spawned: 'uvicorn-0' with pid 3749
+2022-10-29 11:06:13,462 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:06:38,543 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:06:38,543 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:06:39,544 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:06:39,546 INFO spawned: 'uvicorn-0' with pid 3767
+2022-10-29 11:06:40,548 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:06:59,179 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:06:59,180 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:07:00,181 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:07:00,183 INFO spawned: 'uvicorn-0' with pid 3781
+2022-10-29 11:07:01,185 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:07:23,462 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:07:23,462 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:07:24,464 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:07:24,466 INFO spawned: 'uvicorn-0' with pid 3797
+2022-10-29 11:07:25,472 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:07:48,014 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:07:48,014 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:07:49,016 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:07:49,018 INFO spawned: 'uvicorn-0' with pid 3816
+2022-10-29 11:07:50,020 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:08:22,625 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:08:22,625 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:08:23,626 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:08:23,628 INFO spawned: 'uvicorn-0' with pid 4147
+2022-10-29 11:08:24,629 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:08:46,504 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:08:46,505 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:08:47,506 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:08:47,508 INFO spawned: 'uvicorn-0' with pid 4164
+2022-10-29 11:08:48,510 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:09:10,930 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:09:10,930 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:09:11,932 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:09:11,934 INFO spawned: 'uvicorn-0' with pid 4185
+2022-10-29 11:09:12,936 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:09:34,096 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:09:34,096 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:09:35,097 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:09:35,099 INFO spawned: 'uvicorn-0' with pid 4200
+2022-10-29 11:09:36,101 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:10:10,079 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:10:10,079 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:10:11,080 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:10:11,082 INFO spawned: 'uvicorn-0' with pid 4218
+2022-10-29 11:10:12,084 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:10:37,216 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:10:37,216 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:10:38,217 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:10:38,219 INFO spawned: 'uvicorn-0' with pid 4245
+2022-10-29 11:10:39,221 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:10:48,784 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:10:48,784 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:10:49,785 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:10:49,788 INFO spawned: 'uvicorn-0' with pid 4353
+2022-10-29 11:10:50,789 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:11:07,392 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:11:07,392 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:11:08,394 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:11:08,395 INFO spawned: 'uvicorn-0' with pid 4391
+2022-10-29 11:11:09,397 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:11:11,399 WARN received SIGTERM indicating exit request
+2022-10-29 11:11:11,400 INFO waiting for uvicorn-0 to die
+2022-10-29 11:11:11,407 INFO stopped: uvicorn-0 (terminated by SIGTERM)
+2022-10-29 11:11:11,408 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:11:46,763 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:11:46,763 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:11:46,765 INFO daemonizing the supervisord process
+2022-10-29 11:11:46,766 INFO supervisord started with pid 4472
+2022-10-29 11:11:47,767 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:11:47,769 INFO spawned: 'uvicorn-0' with pid 4486
+2022-10-29 11:11:48,770 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:12:06,789 WARN received SIGTERM indicating exit request
+2022-10-29 11:12:06,789 INFO waiting for uvicorn-0 to die
+2022-10-29 11:12:06,796 INFO stopped: uvicorn-0 (terminated by SIGTERM)
+2022-10-29 11:12:06,796 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:12:09,391 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:12:09,391 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:12:09,393 INFO daemonizing the supervisord process
+2022-10-29 11:12:09,393 INFO supervisord started with pid 4563
+2022-10-29 11:12:10,395 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:12:10,397 INFO spawned: 'uvicorn-0' with pid 4567
+2022-10-29 11:12:11,399 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:12:32,006 INFO exited: uvicorn-0 (exit status 1; not expected)
+2022-10-29 11:12:32,006 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:12:32,007 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:12:32,008 INFO spawned: 'uvicorn-0' with pid 4631
+2022-10-29 11:12:33,009 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 11:12:58,037 WARN received SIGTERM indicating exit request
+2022-10-29 11:12:58,038 INFO waiting for uvicorn-0 to die
+2022-10-29 11:12:58,045 INFO stopped: uvicorn-0 (terminated by SIGTERM)
+2022-10-29 11:12:58,045 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:12:58,428 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:12:58,428 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:12:58,430 INFO daemonizing the supervisord process
+2022-10-29 11:12:58,431 INFO supervisord started with pid 4658
+2022-10-29 11:12:59,432 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:12:59,434 INFO spawned: 'uvicorn-0' with pid 4668
+2022-10-29 11:12:59,587 INFO exited: uvicorn-0 (exit status 2; not expected)
+2022-10-29 11:12:59,588 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:13:00,589 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:13:00,591 INFO spawned: 'uvicorn-0' with pid 4672
+2022-10-29 11:13:00,734 INFO exited: uvicorn-0 (exit status 2; not expected)
+2022-10-29 11:13:00,734 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:13:02,737 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:13:02,740 INFO spawned: 'uvicorn-0' with pid 4688
+2022-10-29 11:13:02,885 INFO exited: uvicorn-0 (exit status 2; not expected)
+2022-10-29 11:13:02,885 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:13:05,889 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:13:05,891 INFO spawned: 'uvicorn-0' with pid 4692
+2022-10-29 11:13:06,052 INFO exited: uvicorn-0 (exit status 2; not expected)
+2022-10-29 11:13:06,053 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:13:10,057 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:13:10,059 INFO spawned: 'uvicorn-0' with pid 4703
+2022-10-29 11:13:10,201 INFO exited: uvicorn-0 (exit status 2; not expected)
+2022-10-29 11:13:10,201 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:13:15,208 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:13:15,210 INFO spawned: 'uvicorn-0' with pid 4710
+2022-10-29 11:13:15,365 INFO exited: uvicorn-0 (exit status 2; not expected)
+2022-10-29 11:13:15,365 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:13:20,371 WARN received SIGTERM indicating exit request
+2022-10-29 11:13:21,575 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:13:21,576 INFO Closing socket tcp://localhost:8080
+2022-10-29 11:13:21,577 INFO daemonizing the supervisord process
+2022-10-29 11:13:21,578 INFO supervisord started with pid 4730
+2022-10-29 11:13:22,579 INFO Creating socket tcp://localhost:8080
+2022-10-29 11:13:22,582 INFO spawned: 'uvicorn-0' with pid 4748
+2022-10-29 11:13:23,583 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 20:03:53,765 INFO Creating socket tcp://localhost:8080
+2022-10-29 20:03:53,766 INFO Closing socket tcp://localhost:8080
+2022-10-29 20:03:53,768 INFO daemonizing the supervisord process
+2022-10-29 20:03:53,769 INFO supervisord started with pid 14343
+2022-10-29 20:03:54,771 INFO Creating socket tcp://localhost:8080
+2022-10-29 20:03:54,774 INFO spawned: 'uvicorn-0' with pid 14356
+2022-10-29 20:03:55,776 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-10-29 20:11:31,722 WARN received SIGTERM indicating exit request
+2022-10-29 20:11:31,723 INFO waiting for uvicorn-0 to die
+2022-10-29 20:11:32,190 INFO stopped: uvicorn-0 (exit status 0)
+2022-10-29 20:11:32,191 INFO Closing socket tcp://localhost:8080
+2022-10-29 20:11:37,216 INFO Creating socket tcp://0.0.0.0:8080
+2022-10-29 20:11:37,216 INFO Closing socket tcp://0.0.0.0:8080
+2022-10-29 20:11:37,219 INFO daemonizing the supervisord process
+2022-10-29 20:11:37,220 INFO supervisord started with pid 14532
+2022-10-29 20:11:38,221 INFO Creating socket tcp://0.0.0.0:8080
+2022-10-29 20:11:38,224 INFO spawned: 'uvicorn-0' with pid 14542
+2022-10-29 20:11:39,225 INFO success: uvicorn-0 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

@@ -16,10 +16,10 @@ class Email:
             self.api_key = os.environ["SENDGRID_API_KEY"]
             self.sender = os.environ["SENDER_EMAIL"]
 
-    def send(self, subject: str, recipient: str, html_content: str):
+    def send(self, subject: str, to: str, html_content: str):
         message = Mail(
             from_email=self.sender,
-            to_emails=recipient,
+            to_emails=to,
             subject=subject,
             html_content=html_content,
         )
