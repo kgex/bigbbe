@@ -347,7 +347,7 @@ def update_discord_id(
     )
 
 
-@app.get("/user/{user_id}/{discord_id}")
+@app.get("/discord")
 def get_user_report_by_discord_id(discord_username: str, db: Session = Depends(get_db)):
     return crud.get_user_reports_by_discord_id(db=db, discord_username=discord_username)
 
