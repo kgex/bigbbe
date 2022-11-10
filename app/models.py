@@ -1,6 +1,15 @@
 from enum import unique
 from pydoc import describe
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Enum, Date
+from sqlalchemy import (
+    Boolean,
+    Column,
+    ForeignKey,
+    Integer,
+    String,
+    DateTime,
+    Enum,
+    Date,
+)
 from sqlalchemy.orm import relationship
 from .enums import TaskEnum, GrievanceEnum, PriorityEnum, StatusEnum
 from .database import Base
@@ -17,12 +26,12 @@ class User(Base):
     rfid_key = Column(String, unique=True)
     otp = Column(Integer)
     role = Column(String, default="student")
-    register_num = Column(String, unique = True)
+    register_num = Column(String, unique=True)
     discord_username = Column(String, unique=True)
     phone_no = Column(String, unique=True)
     college = Column(String)
     dept = Column(String)
-    join_year= Column(Integer)
+    join_year = Column(Integer)
     grad_year = Column(Integer)
     otp_last_gen = Column(DateTime)
     items = relationship("Item", back_populates="owner")
@@ -158,10 +167,9 @@ class Inventory(Base):
 
 
 class QR_Attendance(Base):
-    __tablename__="qr_attendance"
+    __tablename__ = "qr_attendance"
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer,ForeignKey("users.id", ondelete="CASCADE"))
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     in_time = Column(DateTime)
     out_time = Column(DateTime, nullable=True)
-    
