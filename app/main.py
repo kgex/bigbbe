@@ -11,6 +11,7 @@ from .database import SessionLocal, engine
 from .schemas import User, Token
 from .routers import nivu
 from .routers.inventory import inventory
+from .routers.qr_attendance import qr_attendance
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -18,7 +19,7 @@ app = FastAPI()
 app.include_router(nivu.router)
 # app.include_router()
 app.include_router(inventory.router, tags=["inventory"])
-
+app.include_router(qr_attendance.router)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -126,12 +127,12 @@ async def login_for_access_token(
             "user_id": user.id,
             "full_name": user.full_name,
             "role": user.role,
-            "phone_no":user.phone_no,
-            "register_num":user.register_num,
-            "college":user.college,
-            "join_year":user.join_year,
-            "grad_year":user.grad_year,
-            "dept":user.dept
+            "phone_no": user.phone_no,
+            "register_num": user.register_num,
+            "college": user.college,
+            "join_year": user.join_year,
+            "grad_year": user.grad_year,
+            "dept": user.dept,
         },
         expires_delta=access_token_expires,
     )
@@ -273,12 +274,12 @@ def forgot_password(user_email: str, db: Session = Depends(get_db)):
 
 
 @app.post("/enterotp")
-def enter_otp(user:schemas.ForgotPass, db: Session = Depends(get_db)):
+def enter_otp(user: schemas.ForgotPass, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user.otp == user.otp:
         db_user.otp = 0
         db_user.hashed_password = auth.get_password_hash(user.password)
-        crud.save_user_details(db,db_user)
+        crud.save_user_details(db, db_user)
         return {"status": "success", "message": "Password changed successfully"}
     else:
         return {"status": "failure", "message": "OTP not verified"}
@@ -351,6 +352,11 @@ def update_discord_id(
 def get_user_report_by_discord_id(discord_username: str, db: Session = Depends(get_db)):
     return crud.get_user_reports_by_discord_id(db=db, discord_username=discord_username)
 
+
 @app.post("/discord")
-def add_report_by_discord_username(discord_username: str, report:schemas.ReportDiscord, db: Session = Depends(get_db)):
-    return crud.add_reports_by_discord_id(db=db, discord_username=discord_username, report=report)
+def add_report_by_discord_username(
+    discord_username: str, report: schemas.ReportDiscord, db: Session = Depends(get_db)
+):
+    return crud.add_reports_by_discord_id(
+        db=db, discord_username=discord_username, report=report
+    )

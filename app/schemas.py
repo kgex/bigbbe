@@ -56,12 +56,14 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-    phone_no:str
-    register_num:str
-    college:str
-    join_year:int
-    grad_year:int
-    dept:str
+    phone_no: str
+    register_num: str
+    college: str
+    join_year: int
+    grad_year: int
+    dept: str
+    role: str
+
 
 class UserDelete(BaseModel):
     id: int
@@ -95,6 +97,7 @@ class Report(BaseModel):
     class Config:
         orm_mode = True
 
+
 class ReportDiscord(BaseModel):
     task_type: TaskEnum
     title: str
@@ -107,6 +110,7 @@ class ReportDiscord(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class ResetPasswordBase(BaseModel):
     email: str
@@ -216,6 +220,7 @@ class AttendanceResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class ForgotPass(BaseModel):
     email: str
