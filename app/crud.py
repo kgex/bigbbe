@@ -227,7 +227,7 @@ def attendance_in(db: Session, entry: schemas.AttendanceIn, user_id: int):
     db.add(db_entry)
     db.commit()
     db.refresh(db_entry)
-    return {"name":name, 'id':db_entry.id}
+    return {"name": name, "id": db_entry.id}
 
 
 def get_attendance(db: Session):
