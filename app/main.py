@@ -313,7 +313,7 @@ def attendance_in(
     db_user = crud.get_user_id_by_rfid_key(db, rfid_key=attendance_entry.rfid_key)
     if not db_user or db_user.is_active == False:
         raise HTTPException(status_code=400, detail="Invalid User")
-    
+
     return crud.attendance_in(db=db, entry=attendance_entry, user_id=db_user.id)
 
 
@@ -370,9 +370,12 @@ def add_report_by_discord_username(
         db=db, discord_username=discord_username, report=report
     )
 
+
 @app.post("/is-verified")
-def verify_user(current_user: User = Depends(auth.get_current_active_user), db: Session = Depends(get_db)):
+def verify_user(
+    current_user: User = Depends(auth.get_current_active_user),
+    db: Session = Depends(get_db),
+):
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="User not verified")
     return {"status": "success", "message": "User verified"}
-
