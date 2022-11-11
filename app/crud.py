@@ -16,7 +16,11 @@ def get_user_by_email(db: Session, email: str):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
+def get_user_by_phone(db: Session, phone: str):
+    return db.query(models.User).filter(models.User.phone_no == phone).first()
 
+def get_user_by_reg_number(db: Session, reg_num: str):
+    return db.query(models.User).filter(models.User.register_num== reg_num).first()
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = get_password_hash(user.password)
     user_dict = user.dict()
