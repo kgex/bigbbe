@@ -56,7 +56,9 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Phone number already registered")
     db_user = crud.get_user_by_reg_number(db, reg_num=user.register_num)
     if db_user:
-        raise HTTPException(status_code=400, detail="Registration number already registered")
+        raise HTTPException(
+            status_code=400, detail="Registration number already registered"
+        )
     valid_domains = ["kgkite.ac.in", "kgcas.com"]
     if str(user.email).split("@")[1] not in valid_domains:
         raise HTTPException(
@@ -67,9 +69,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     crud.save_user_details(db=db, user=db_user)
     msg = "Your OTP is: <h2>" + str(db_user.otp) + "</h2>"
     email_client = email.Email()
-    email_client.send(
-        to=db_user.email, subject="Verify your email", html_content=msg
-    )
+    email_client.send(to=db_user.email, subject="Verify your email", html_content=msg)
 
     return db_user
 
