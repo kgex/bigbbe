@@ -231,8 +231,15 @@ def attendance_in(db: Session, entry: schemas.AttendanceIn, user_id: int):
 
 
 def get_attendance(db: Session):
-    db_q = db.query(models.AttendanceEntries, models.User).join(models.User, models.AttendanceEntries.user_id == models.User.id).all()
-    db_user = [{"name":i['User'].full_name,"attendance":i['AttendanceEntries']} for i in db_q]
+    db_q = (
+        db.query(models.AttendanceEntries, models.User)
+        .join(models.User, models.AttendanceEntries.user_id == models.User.id)
+        .all()
+    )
+    db_user = [
+        {"name": i["User"].full_name, "attendance": i["AttendanceEntries"]}
+        for i in db_q
+    ]
     return db_user
 
 
@@ -258,21 +265,45 @@ def update_user_rfid_key(db: Session, user_email: str, rfid_key: str):
 
 
 def get_today_attendance(db: Session, user_id: int):
-    db_q = db.query(models.AttendanceEntries, models.User).join(models.User, models.AttendanceEntries.user_id == models.User.id).filter(models.AttendanceEntries.out_time <= datetime.date.today(),models.User.id == user_id).all()
-    db_user = [{"name":i['User'].full_name,"attendance":i['AttendanceEntries']} for i in db_q]
+    db_q = (
+        db.query(models.AttendanceEntries, models.User)
+        .join(models.User, models.AttendanceEntries.user_id == models.User.id)
+        .filter(
+            models.AttendanceEntries.out_time <= datetime.date.today(),
+            models.User.id == user_id,
+        )
+        .all()
+    )
+    db_user = [
+        {"name": i["User"].full_name, "attendance": i["AttendanceEntries"]}
+        for i in db_q
+    ]
     return db_user
 
+
 def get_todays_attendance(db: Session):
-    db_q = db.query(models.AttendanceEntries, models.User).join(models.User, models.AttendanceEntries.user_id == models.User.id).all()
-    db_user = [{"name":i['User'].full_name,"attendance":i['AttendanceEntries']} for i in db_q]
+    db_q = (
+        db.query(models.AttendanceEntries, models.User)
+        .join(models.User, models.AttendanceEntries.user_id == models.User.id)
+        .all()
+    )
+    db_user = [
+        {"name": i["User"].full_name, "attendance": i["AttendanceEntries"]}
+        for i in db_q
+    ]
     return db_user
+
+
 def get_previous_month_attendance(db: Session, user_id: int):
     month = datetime.date.today().month
     # db_att = db.query(models.AttendanceEntries, models.User).join(models.AttendanceEntries).filter(models.AttendanceEntries.user_id==user_id, models.AttendanceEntries.out_time >= first_day).limit(limit).all()
     db_att = (
         db.query(models.AttendanceEntries, models.User)
         .join(models.AttendanceEntries)
-        .filter(models.AttendanceEntries.user_id == user_id, extract("month", models.AttendanceEntries.out_time) == month)
+        .filter(
+            models.AttendanceEntries.user_id == user_id,
+            extract("month", models.AttendanceEntries.out_time) == month,
+        )
         .all()
     )
     return db_att
