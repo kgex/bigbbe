@@ -309,8 +309,9 @@ def attendance_in(
     attendance_entry: schemas.AttendanceIn, db: Session = Depends(get_db)
 ):
     db_user = crud.get_user_id_by_rfid_key(db, rfid_key=attendance_entry.rfid_key)
-    if not db_user:
-        raise HTTPException(status_code=400, detail="User with RFID key not found")
+    if not db_user or db_user.is_active == False:
+        raise HTTPException(status_code=400, detail="Invalid User")
+    
     return crud.attendance_in(db=db, entry=attendance_entry, user_id=db_user.id)
 
 

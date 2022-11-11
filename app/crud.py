@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 import datetime
 from . import models, schemas
 from .auth import get_password_hash
-from sqlalchemy import func
+from sqlalchemy import func, extract
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
@@ -227,7 +227,9 @@ def attendance_in(db: Session, entry: schemas.AttendanceIn, user_id: int):
 
 
 def get_attendance(db: Session):
-    return db.query(models.AttendanceEntries).all()
+    db_q = db.query(models.AttendanceEntries, models.User).join(models.User, models.AttendanceEntries.user_id == models.User.id).all()
+    db_user = [{"name":i['User'].full_name,"attendance":i['AttendanceEntries']} for i in db_q]
+    return db_user
 
 
 def attendance_out(db: Session, entry: schemas.AttendanceOut):
@@ -251,29 +253,21 @@ def update_user_rfid_key(db: Session, user_email: str, rfid_key: str):
 
 
 def get_today_attendance(db: Session, user_id: int):
-    db_att = (
-        db.query(models.AttendanceEntries, models.User)
-        .join(models.User)
-        .filter(
-            models.AttendanceEntries.user_id == user_id,
-            models.AttendanceEntries.out_time == datetime.datetime.now().date(),
-        )
-        .all()
-    )
-    print(type(db_att))
-    return db_att
+    db_q = db.query(models.AttendanceEntries, models.User).join(models.User, models.AttendanceEntries.user_id == models.User.id).filter(models.AttendanceEntries.out_time <= datetime.date.today(),models.User.id == user_id).all()
+    db_user = [{"name":i['User'].full_name,"attendance":i['AttendanceEntries']} for i in db_q]
+    return db_user
 
-
+def get_todays_attendance(db: Session):
+    db_q = db.query(models.AttendanceEntries, models.User).join(models.User, models.AttendanceEntries.user_id == models.User.id).all()
+    db_user = [{"name":i['User'].full_name,"attendance":i['AttendanceEntries']} for i in db_q]
+    return db_user
 def get_previous_month_attendance(db: Session, user_id: int):
-    print(type(models.AttendanceEntries.out_time))
-    first_day = datetime.datetime.now().replace(day=1)
-    limit = (datetime.datetime.now() - first_day.replace(day=1)).days
+    month = datetime.date.today().month
     # db_att = db.query(models.AttendanceEntries, models.User).join(models.AttendanceEntries).filter(models.AttendanceEntries.user_id==user_id, models.AttendanceEntries.out_time >= first_day).limit(limit).all()
     db_att = (
         db.query(models.AttendanceEntries, models.User)
         .join(models.AttendanceEntries)
-        .filter(models.AttendanceEntries.user_id == user_id)
-        .limit(limit)
+        .filter(models.AttendanceEntries.user_id == user_id, extract("month", models.AttendanceEntries.out_time) == month)
         .all()
     )
     return db_att
