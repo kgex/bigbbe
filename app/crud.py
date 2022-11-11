@@ -223,11 +223,11 @@ def attendance_in(db: Session, entry: schemas.AttendanceIn, user_id: int):
         in_time=entry.in_time,
         updated_time=datetime.datetime.now(),
     )
-    db.query(models.User).filter(models.User.id == user_id).first().full_name
+    name = db.query(models.User).filter(models.User.id == user_id).first().full_name
     db.add(db_entry)
     db.commit()
     db.refresh(db_entry)
-    return db_entry
+    return {"name":name, 'id':db_entry.id}
 
 
 def get_attendance(db: Session):
