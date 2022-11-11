@@ -223,6 +223,7 @@ def attendance_in(db: Session, entry: schemas.AttendanceIn, user_id: int):
         in_time=entry.in_time,
         updated_time=datetime.datetime.now(),
     )
+
     name = db.query(models.User).filter(models.User.id == user_id).first().full_name
     db.add(db_entry)
     db.commit()
@@ -246,12 +247,12 @@ def get_attendance(db: Session):
 def attendance_out(db: Session, entry: schemas.AttendanceOut):
     db_entry = (
         db.query(models.AttendanceEntries, models.User)
-        .join(models.User, models.AttendanceEntries.user_id == models.User.id)
-        .filter(models.AttendanceEntries.id == entry.id)
-        .first()
+        # .join(models.User, models.AttendanceEntries.user_id == models.User.id)
+        .filter(models.AttendanceEntries.id == entry.id).first()
     )
     db_entry.out_time = entry.out_time
     db_entry.updated_time = datetime.datetime.now()
+    db.add(db_entry)
     db.commit()
     db.refresh(db_entry)
     return db_entry
