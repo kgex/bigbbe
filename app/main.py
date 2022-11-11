@@ -77,6 +77,8 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 @app.post("/verify", response_model=schemas.User)
 def verify_user(user: schemas.UserVerify, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
+    if db_user.is_active:
+        raise HTTPException(status_code=400, detail="User already verified")
     if not db_user:
         raise HTTPException(status_code=400, detail="Email not registered")
     if db_user.otp != user.otp:
@@ -309,8 +311,9 @@ def attendance_in(
     attendance_entry: schemas.AttendanceIn, db: Session = Depends(get_db)
 ):
     db_user = crud.get_user_id_by_rfid_key(db, rfid_key=attendance_entry.rfid_key)
-    if not db_user:
-        raise HTTPException(status_code=400, detail="User with RFID key not found")
+    if not db_user or db_user.is_active == False:
+        raise HTTPException(status_code=400, detail="Invalid User")
+
     return crud.attendance_in(db=db, entry=attendance_entry, user_id=db_user.id)
 
 
@@ -366,3 +369,13 @@ def add_report_by_discord_username(
     return crud.add_reports_by_discord_id(
         db=db, discord_username=discord_username, report=report
     )
+
+
+@app.post("/is-verified")
+def verify_user(
+    current_user: User = Depends(auth.get_current_active_user),
+    db: Session = Depends(get_db),
+):
+    if not current_user.is_active:
+        raise HTTPException(status_code=400, detail="User not verified")
+    return {"status": "success", "message": "User verified"}
