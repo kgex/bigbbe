@@ -306,7 +306,7 @@ def enter_otp(user: schemas.ForgotPass, db: Session = Depends(get_db)):
 #     return user_grievances
 
 
-@app.post("/attendance_in", response_model=schemas.AttendanceInResponse)
+@app.post("/attendance_in")
 def attendance_in(
     attendance_entry: schemas.AttendanceIn, db: Session = Depends(get_db)
 ):
@@ -317,7 +317,7 @@ def attendance_in(
     return crud.attendance_in(db=db, entry=attendance_entry, user_id=db_user.id)
 
 
-@app.patch("/attendance_out", response_model=schemas.AttendanceInResponse)
+@app.patch("/attendance_out")
 def attendance_out(
     attendance_entry: schemas.AttendanceOut, db: Session = Depends(get_db)
 ):
