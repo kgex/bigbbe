@@ -65,8 +65,10 @@ class UserCreate(UserBase):
     role: str
     gender: str
     stay: str
+
     class Config:
         orm_mode = True
+
 
 class UserDelete(BaseModel):
     id: int
