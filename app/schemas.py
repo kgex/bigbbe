@@ -63,6 +63,11 @@ class UserCreate(UserBase):
     grad_year: int
     dept: str
     role: str
+    gender: str
+    stay: str
+
+    class Config:
+        orm_mode = True
 
 
 class UserDelete(BaseModel):
