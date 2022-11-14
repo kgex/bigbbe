@@ -248,8 +248,7 @@ def attendance_out(db: Session, entry: schemas.AttendanceOut):
     db_entry = (
         db.query(models.AttendanceEntries, models.User)
         # .join(models.User, models.AttendanceEntries.user_id == models.User.id)
-        .filter(models.AttendanceEntries.id == entry.id)
-        .first()
+        .filter(models.AttendanceEntries.id == entry.id).first()
     )
     db_entry.out_time = entry.out_time
     db_entry.updated_time = datetime.datetime.now()
