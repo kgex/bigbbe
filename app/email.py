@@ -34,24 +34,23 @@
 
 from mailjet_rest import Client
 import os
+
+
 class Email:
     def __init__(self):
         try:
-            self.api_key = os.environ.get('MAILJET_API_KEY')
-            self.api_secret = os.environ.get('MAILJET_API_SECRET')
+            self.api_key = os.environ.get("MAILJET_API_KEY")
+            self.api_secret = os.environ.get("MAILJET_API_SECRET")
         except:
-            self.api_key = os.environ['MAILJET_API_KEY']
-            self.api_secret = os.environ['MAILJET_API_SECRET']
-    
+            self.api_key = os.environ["MAILJET_API_KEY"]
+            self.api_secret = os.environ["MAILJET_API_SECRET"]
+
     def send(self, to, subject, html_content):
-        mailjet = Client(auth=(self.api_key, self.api_secret), version='v3.1')
+        mailjet = Client(auth=(self.api_key, self.api_secret), version="v3.1")
         data = {
-            'Messages': [
+            "Messages": [
                 {
-                    "From": {
-                        "Email": "tkksctwo@gmail.com",
-                        "Name": "KGX"
-                    },
+                    "From": {"Email": "tkksctwo@gmail.com", "Name": "KGX"},
                     "To": [
                         {
                             "Email": to,
@@ -59,11 +58,9 @@ class Email:
                     ],
                     "Subject": subject,
                     "HTMLPart": html_content,
-                    "CustomID": "AppGettingStartedTest"
+                    "CustomID": "AppGettingStartedTest",
                 }
             ]
         }
         result = mailjet.send.create(data=data)
         return result
-
-

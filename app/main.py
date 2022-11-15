@@ -381,6 +381,7 @@ def verify_user(
         raise HTTPException(status_code=400, detail="User not verified")
     return {"status": "success", "message": "User verified"}
 
+
 @app.post("/resend-otp")
 def resend_otp(user_email: str, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user_email)
