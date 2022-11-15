@@ -74,7 +74,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.post("/verify", response_model=schemas.User)
+@app.post("/verify")
 def verify_user(user: schemas.UserVerify, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user.is_active:
@@ -86,7 +86,7 @@ def verify_user(user: schemas.UserVerify, db: Session = Depends(get_db)):
     db_user.otp = None
     db_user.is_active = True
     crud.save_user_details(db=db, user=db_user)
-    return db_user
+    return {"message": "User verified"}
 
 
 @app.get("/users/", response_model=List[schemas.User])
@@ -329,8 +329,9 @@ def get_attendance(db: Session = Depends(get_db)):
     return crud.get_attendance(db=db)
 
 
-@app.patch("/updaterfid", response_model=schemas.User)
+@app.patch("/updaterfid")
 def update_rfid(details: schemas.UpdateRFID, db: Session = Depends(get_db)):
+    # db_user = crud.get_user_by_email(db, email=details.email)
     return crud.update_user_rfid_key(
         db=db, user_email=details.email, rfid_key=details.rfid_key
     )
@@ -379,3 +380,19 @@ def verify_user(
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="User not verified")
     return {"status": "success", "message": "User verified"}
+
+@app.post("/resend-otp")
+def resend_otp(user_email: str, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user_email)
+    db_user.otp = auth.generate_otp()
+    db_user.otp_last_gen = datetime.now()
+    crud.save_user_details(db, db_user)
+    msg = "<h2>Your otp is <h1>" + str(db_user.otp) + "</h1></h2>"
+    email_client = email.Email()
+    try:
+        email_client.send(
+            recipient=db_user.email, subject="Password Reset OTP", html_content=msg
+        )
+    except Exception as e:
+        return {"status": "failure", "message": str(e)}
+    return {"status": "success", "message": "OTP sent to your email"}
