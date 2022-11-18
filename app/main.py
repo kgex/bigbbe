@@ -274,7 +274,7 @@ def forgot_password(user_email: str, db: Session = Depends(get_db)):
     email_client = email.Email()
     try:
         email_client.send(
-            recipient=db_user.email, subject="Password Reset OTP", html_content=msg
+            to=db_user.email, subject="Password Reset OTP", html_content=msg
         )
     except Exception as e:
         return {"status": "failure", "message": str(e)}
@@ -392,7 +392,7 @@ def resend_otp(user_email: str, db: Session = Depends(get_db)):
     email_client = email.Email()
     try:
         email_client.send(
-            recipient=db_user.email, subject="Password Reset OTP", html_content=msg
+            to=db_user.email, subject="Password Reset OTP", html_content=msg
         )
     except Exception as e:
         return {"status": "failure", "message": str(e)}
