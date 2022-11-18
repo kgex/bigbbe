@@ -37,7 +37,9 @@ def post_attendance(
 
 
 @router.get("/")
-def get_all_attendance(db: Session = Depends(get_db),user: User = Depends(get_current_active_user)):
+def get_all_attendance(
+    db: Session = Depends(get_db), user: User = Depends(get_current_active_user)
+):
     return crud.get_all_attendance(db=db)
 
 
