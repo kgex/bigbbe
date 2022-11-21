@@ -15,7 +15,13 @@ def get_user_by_email(db: Session, email: str):
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
+    return (
+        db.query(models.User)
+        .order_by(models.User.id.asc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_user_by_phone(db: Session, phone: str):
