@@ -87,8 +87,9 @@ class User(UserBase):
     join_year: int
     grad_year: int
     college: str
-    gender : str
+    gender: str
     dept: str
+
     class Config:
         orm_mode = True
 
