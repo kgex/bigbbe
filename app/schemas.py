@@ -82,8 +82,13 @@ class UserVerify(BaseModel):
 class User(UserBase):
     id: int
     rfid_key: Optional[str]
-    items: List[Item] = []
-
+    is_active: bool
+    register_num: str
+    join_year: int
+    grad_year: int
+    college: str
+    gender : str
+    dept: str
     class Config:
         orm_mode = True
 
