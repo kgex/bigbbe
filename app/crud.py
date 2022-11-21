@@ -246,7 +246,7 @@ def get_attendance(db: Session):
 
 def attendance_out(db: Session, entry: schemas.AttendanceOut):
     db_entry = (
-        db.query(models.AttendanceEntries, models.User)
+        db.query(models.AttendanceEntries)
         # .join(models.User, models.AttendanceEntries.user_id == models.User.id)
         .filter(models.AttendanceEntries.id == entry.id).first()
     )
