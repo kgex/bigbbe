@@ -89,7 +89,7 @@ class User(UserBase):
     college: str
     gender : str
     dept: str
-    otp: str
+
     class Config:
         orm_mode = True
 
