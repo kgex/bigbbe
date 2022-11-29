@@ -74,6 +74,38 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 
+@app.get("/users", response_model=List[schemas.User])
+def get_user_by_params(
+    email: Optional[str] = None,
+    phone: Optional[str] = None,
+    reg_num: Optional[str] = None,
+    stay: Optional[str] = None,
+    college: Optional[str] = None,
+    dept: Optional[str] = None,
+    join_year: Optional[int] = None,
+    grad_year: Optional[int] = None,
+    db: Session = Depends(get_db),
+):
+    if email != None:
+        return db.query(models.User).filter(models.User.email == email).all()
+    elif phone != None:
+        return db.query(models.User).filter(models.User.phone_no == phone).all()
+    elif reg_num != None:
+        return db.query(models.User).filter(models.User.register_num == reg_num).all()
+    elif stay != None:
+        return db.query(models.User).filter(models.User.stay == stay).all()
+    elif college != None:
+        return db.query(models.User).filter(models.User.college == college).all()
+    elif dept != None:
+        return db.query(models.User).filter(models.User.dept == dept).all()
+    elif join_year != None:
+        return db.query(models.User).filter(models.User.join_year == join_year).all()
+    elif grad_year != None:
+        return db.query(models.User).filter(models.User.grad_year == grad_year).all()
+    else:
+        raise HTTPException(status_code=400, detail="Invalid parameters")
+
+
 @app.post("/verify")
 def verify_user(user: schemas.UserVerify, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
