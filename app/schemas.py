@@ -87,7 +87,7 @@ class User(UserBase):
     join_year: int
     grad_year: int
     college: str
-    gender : str
+    gender: str
     dept: str
     stay: str
     
