@@ -73,7 +73,8 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
     return db_user
 
-@app.get("/users",response_model=List[schemas.User])
+
+@app.get("/users", response_model=List[schemas.User])
 def get_user_by_params(
     email: Optional[str] = None,
     phone: Optional[str] = None,
@@ -103,6 +104,7 @@ def get_user_by_params(
         return db.query(models.User).filter(models.User.grad_year == grad_year).all()
     else:
         raise HTTPException(status_code=400, detail="Invalid parameters")
+
 
 @app.post("/verify")
 def verify_user(user: schemas.UserVerify, db: Session = Depends(get_db)):

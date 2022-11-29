@@ -90,7 +90,7 @@ class User(UserBase):
     gender: str
     dept: str
     stay: str
-    
+
     class Config:
         orm_mode = True
 
