@@ -62,7 +62,6 @@ class UserCreate(UserBase):
     join_year: int
     grad_year: int
     dept: str
-    role: str
     gender: str
     stay: str
 
