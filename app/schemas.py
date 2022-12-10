@@ -62,7 +62,6 @@ class UserCreate(UserBase):
     join_year: int
     grad_year: int
     dept: str
-    role: str
     gender: str
     stay: str
 
@@ -90,10 +89,9 @@ class User(UserBase):
     gender: str
     dept: str
     stay: str
-
+    
     class Config:
         orm_mode = True
-
 
 class Report(BaseModel):
     task_type: TaskEnum
