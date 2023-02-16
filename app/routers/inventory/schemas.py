@@ -15,11 +15,24 @@ class InventoryIn(BaseModel):
     created_at: datetime
     item_condition: str
     purchase_price: float
-    photo_urls: str
-    thumbnail_url: str
 
-    class Config:
-        orm_mode = True
+    # class Config:
+    #     orm_mode = True
+    #     fields = {
+
+    #         "name": "name",
+    #         "category": "category",
+    #         "qty": "qty",
+    #         "specs": "specs",
+    #         "department": "department",
+    #         "college": "college",
+    #         "description": "description",
+    #         "purchase_date": "purchase_date",
+    #         "created_at": "created_at",
+    #         "item_condition": "item_condition",
+    #         "purchase_price": "purchase_price",
+    #     }
+
 
 
 class InventoryOut(InventoryIn):

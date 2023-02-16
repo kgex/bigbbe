@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, File, UploadFile, responses
 from ...auth import get_current_active_user
 from sqlalchemy.orm import Session
 from . import crud, schemas
 from ...database import SessionLocal
 from ...models import User
 from typing import List
+import shutil
 
 
 def get_db():
@@ -36,16 +37,20 @@ def read_inventory(
     return inventory
 
 
-@router.post("/", response_model=schemas.InventoryOut)
+@router.post("/")
 def create_inventory(
-    inventory: schemas.InventoryIn,
+    # inventory: schemas.InventoryIn,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_active_user),
+    file: UploadFile = File(...),
+    inventory: schemas.InventoryIn=Depends()
 ):
     if user.role != "admin":
         raise HTTPException(status_code=400, detail="Not authorized")
-    inventory = crud.create_inventory(db=db, inventory=inventory, user_id=user.id)
-    return inventory
+    
+    inventory = crud.create_inventory(db=db, inventory=inventory, user_id=user.id,photo=file)
+
+    return {"message": "Inventory created successfully"}
 
 
 @router.patch("/{inventory_id}", response_model=schemas.InventoryOut)
@@ -75,7 +80,7 @@ def delete_inventory(
     return inventory
 
 
-@router.get("/{inventory_id}", response_model=schemas.InventoryOut)
+@router.get("/{inventory_id}")
 def read_inventory_by_id(
     inventory_id: int,
     db: Session = Depends(get_db),

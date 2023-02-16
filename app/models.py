@@ -149,23 +149,22 @@ class AttendanceEntries(Base):
 class Inventory(Base):
     __tablename__ = "inventory"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String, index=True)
-    category = Column(String, index=True)
-    qty = Column(Integer, index=True)
-    specs = Column(String, index=True)
-    department = Column(String, index=True)
-    college = Column(String, index=True)
-    description = Column(String, index=True)
-    purchase_date = Column(DateTime, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
-
-    created_at = Column(DateTime, index=True)
-    updated_at = Column(DateTime, index=True)
-    item_condition = Column(String, index=True)
-    purchase_price = Column(Integer, index=True)
-    photo_urls = Column(String, index=True)
-    thumbnail_url = Column(String, index=True)
+    name = Column(String)
+    category = Column(String)
+    qty = Column(Integer)
+    specs = Column(String)
+    department = Column(String)
+    college = Column(String)
+    description = Column(String)
+    purchase_date = Column(DateTime)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+    item_condition = Column(String)
+    purchase_price = Column(Integer)
+    photo_urls = Column(String, nullable=True)
+    thumbnail_url = Column(String,  nullable=True)
 
 
 class QR_Attendance(Base):
