@@ -26,6 +26,7 @@ class User(Base):
     rfid_key = Column(String, unique=True)
     otp = Column(Integer)
     role = Column(String, default="student")
+    category = Column(String)
     gender = Column(String)
     stay = Column(String)
     register_num = Column(String, unique=True)
