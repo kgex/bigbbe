@@ -93,6 +93,7 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+
 class Report(BaseModel):
     task_type: TaskEnum
     title: str
