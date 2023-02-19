@@ -66,7 +66,6 @@ class Entry(Base):
 
 
 class Report(Base):
-
     __tablename__ = "reports"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -137,7 +136,6 @@ class Token(Base):
 
 
 class AttendanceEntries(Base):
-
     __tablename__ = "attendance_entries"
 
     id = Column(Integer, primary_key=True)
@@ -165,7 +163,7 @@ class Inventory(Base):
     item_condition = Column(String)
     purchase_price = Column(Integer)
     photo_urls = Column(String, nullable=True)
-    thumbnail_url = Column(String,  nullable=True)
+    thumbnail_url = Column(String, nullable=True)
 
 
 class QR_Attendance(Base):
