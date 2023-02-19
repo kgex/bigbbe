@@ -34,7 +34,6 @@ class InventoryIn(BaseModel):
     #     }
 
 
-
 class InventoryOut(InventoryIn):
     id: int
 

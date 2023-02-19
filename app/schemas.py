@@ -65,6 +65,7 @@ class UserCreate(UserBase):
     gender: str
     stay: str
     category: str
+
     class Config:
         orm_mode = True
 
@@ -90,6 +91,7 @@ class User(UserBase):
     dept: str
     stay: str
     category: str
+
     class Config:
         orm_mode = True
 

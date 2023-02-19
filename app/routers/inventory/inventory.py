@@ -43,12 +43,14 @@ def create_inventory(
     db: Session = Depends(get_db),
     user: User = Depends(get_current_active_user),
     file: UploadFile = File(...),
-    inventory: schemas.InventoryIn=Depends()
+    inventory: schemas.InventoryIn = Depends(),
 ):
     if user.role != "admin":
         raise HTTPException(status_code=400, detail="Not authorized")
-    
-    inventory = crud.create_inventory(db=db, inventory=inventory, user_id=user.id,photo=file)
+
+    inventory = crud.create_inventory(
+        db=db, inventory=inventory, user_id=user.id, photo=file
+    )
 
     return {"message": "Inventory created successfully"}
 

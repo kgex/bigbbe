@@ -6,11 +6,14 @@ from ...auth import get_password_hash
 from fastapi import File, UploadFile
 import shutil
 
+
 def get_inventory(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Inventory).offset(skip).limit(limit).all()
 
 
-def create_inventory(db: Session, inventory: schemas.InventoryIn, user_id: int,photo:UploadFile):
+def create_inventory(
+    db: Session, inventory: schemas.InventoryIn, user_id: int, photo: UploadFile
+):
     db_inventory = models.Inventory(
         **inventory.dict(), updated_at=datetime.datetime.now(), user_id=user_id
     )
@@ -76,6 +79,8 @@ def delete_inventory(db: Session, inventory_id: int):
 
 
 def read_inventory_by_id(db: Session, inventory_id: int):
-    db_inventory = db.query(models.Inventory).filter(models.Inventory.id == inventory_id).first()
-    photo = open(db_inventory.photo_urls, "rb") 
+    db_inventory = (
+        db.query(models.Inventory).filter(models.Inventory.id == inventory_id).first()
+    )
+    photo = open(db_inventory.photo_urls, "rb")
     return {"inventory": db_inventory, "photo": photo}
