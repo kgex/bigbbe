@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional, List
-
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, status
+import shutil
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, status, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -37,6 +37,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
 # Dependency
 def get_db():
     db = SessionLocal()
@@ -429,3 +431,10 @@ def resend_otp(user_email: str, db: Session = Depends(get_db)):
     except Exception as e:
         return {"status": "failure", "message": str(e)}
     return {"status": "success", "message": "OTP sent to your email"}
+
+
+@app.post("/files")
+def upload_file(file: UploadFile = File(...)):
+    with open(f"./media/{file.filename}", "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    return {"filename": file.filename}

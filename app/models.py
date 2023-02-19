@@ -26,6 +26,7 @@ class User(Base):
     rfid_key = Column(String, unique=True)
     otp = Column(Integer)
     role = Column(String, default="student")
+    category = Column(String)
     gender = Column(String)
     stay = Column(String)
     register_num = Column(String, unique=True)
@@ -65,7 +66,6 @@ class Entry(Base):
 
 
 class Report(Base):
-
     __tablename__ = "reports"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -136,7 +136,6 @@ class Token(Base):
 
 
 class AttendanceEntries(Base):
-
     __tablename__ = "attendance_entries"
 
     id = Column(Integer, primary_key=True)
@@ -149,23 +148,22 @@ class AttendanceEntries(Base):
 class Inventory(Base):
     __tablename__ = "inventory"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String, index=True)
-    category = Column(String, index=True)
-    qty = Column(Integer, index=True)
-    specs = Column(String, index=True)
-    department = Column(String, index=True)
-    college = Column(String, index=True)
-    description = Column(String, index=True)
-    purchase_date = Column(DateTime, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
-
-    created_at = Column(DateTime, index=True)
-    updated_at = Column(DateTime, index=True)
-    item_condition = Column(String, index=True)
-    purchase_price = Column(Integer, index=True)
-    photo_urls = Column(String, index=True)
-    thumbnail_url = Column(String, index=True)
+    name = Column(String)
+    category = Column(String)
+    qty = Column(Integer)
+    specs = Column(String)
+    department = Column(String)
+    college = Column(String)
+    description = Column(String)
+    purchase_date = Column(DateTime)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+    item_condition = Column(String)
+    purchase_price = Column(Integer)
+    photo_urls = Column(String, nullable=True)
+    thumbnail_url = Column(String, nullable=True)
 
 
 class QR_Attendance(Base):
