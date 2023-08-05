@@ -6,3 +6,4 @@ sendgrid.env
 migrations/
 migrations/versions/
 .env
+.space

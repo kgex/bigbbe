@@ -4,7 +4,7 @@ import datetime
 from . import models, schemas
 from .auth import get_password_hash
 from sqlalchemy import func, extract
-
+import pytz
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
@@ -223,19 +223,48 @@ def get_user_id_by_rfid_key(db: Session, rfid_key: str):
     return db.query(models.User).filter(models.User.rfid_key == rfid_key).first()
 
 
+# def attendance_in(db: Session, entry: schemas.AttendanceIn, user_id: int):
+#     db_entry = models.AttendanceEntries(
+#         user_id=user_id,
+#         in_time=entry.in_time,
+#         updated_time=datetime.datetime.now(),
+#     )
+
+#     name = db.query(models.User).filter(models.User.id == user_id).first().full_name
+#     db.add(db_entry)
+#     db.commit()
+#     db.refresh(db_entry)
+#     return {"name": name, "id": db_entry.id}
 def attendance_in(db: Session, entry: schemas.AttendanceIn, user_id: int):
-    db_entry = models.AttendanceEntries(
-        user_id=user_id,
-        in_time=entry.in_time,
-        updated_time=datetime.datetime.now(),
-    )
-
+    # Check if attendance record for the current date already exists for the user
+    today = datetime.date.today()
     name = db.query(models.User).filter(models.User.id == user_id).first().full_name
-    db.add(db_entry)
-    db.commit()
-    db.refresh(db_entry)
-    return {"name": name, "id": db_entry.id}
+    db_entry = db.query(models.AttendanceEntries).filter(
+        models.AttendanceEntries.user_id == user_id,
+        models.AttendanceEntries.in_time >= today,
+        models.AttendanceEntries.in_time < today + datetime.timedelta(days=1)
+    ).first()
+    
+    if db_entry:
+        # Update the existing attendance record
+        db_entry.in_time = entry.in_time
+        db_entry.updated_time = datetime.datetime.now()
+        db.commit()
+        db.refresh(db_entry)
+        return {"name": name, "id": db_entry.id}
+    else:
+        # Create a new attendance record
+        db_entry = models.AttendanceEntries(
+            user_id=user_id,
+            in_time=entry.in_time,
+            updated_time=datetime.datetime.now(),
+        )
 
+        
+        db.add(db_entry)
+        db.commit()
+        db.refresh(db_entry)
+        return {"name": name, "id": db_entry.id}
 
 def get_attendance(db: Session):
     db_q = (
@@ -250,15 +279,33 @@ def get_attendance(db: Session):
     return db_user
 
 
+# def attendance_out(db: Session, entry: schemas.AttendanceOut):
+#     db_entry = (
+#         db.query(models.AttendanceEntries)
+#         # .join(models.User, models.AttendanceEntries.user_id == models.User.id)
+#         .filter(models.AttendanceEntries.id == entry.id).first()
+#     )
+#     db_entry.out_time = entry.out_time
+#     db_entry.updated_time = datetime.datetime.now()
+#     db.add(db_entry)
+#     db.commit()
+#     db.refresh(db_entry)
+#     return db_entry
 def attendance_out(db: Session, entry: schemas.AttendanceOut):
     db_entry = (
         db.query(models.AttendanceEntries)
-        # .join(models.User, models.AttendanceEntries.user_id == models.User.id)
         .filter(models.AttendanceEntries.id == entry.id).first()
     )
+    tz = pytz.timezone('UTC')
     db_entry.out_time = entry.out_time
     db_entry.updated_time = datetime.datetime.now()
-    db.add(db_entry)
+
+    in_time = db_entry.in_time.replace(tzinfo=tz)
+    out_time = entry.out_time.replace(tzinfo=tz)
+    duration = (out_time - in_time).total_seconds() / 3600
+
+    db_entry.hours += round(duration, 2)  # Round to 2 decimal places
+
     db.commit()
     db.refresh(db_entry)
     return db_entry
