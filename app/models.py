@@ -142,6 +142,7 @@ class AttendanceEntries(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     in_time = Column(DateTime, index=True)
     out_time = Column(DateTime, index=True, nullable=True)
+    hours = Column(Integer, default=0)
     updated_time = Column(DateTime, index=True)
 
 
